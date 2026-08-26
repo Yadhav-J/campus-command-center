@@ -1,21 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
+
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Campus Command Center</title>
 
     <link rel="stylesheet" href="style.css">
+
 </head>
+
 
 <body>
 
-    <!-- Sidebar -->
+
+    <!-- ========================================= -->
+    <!-- SIDEBAR -->
+    <!-- ========================================= -->
+
     <aside>
+
         <h2>Campus Command</h2>
 
         <nav>
+
             <ul>
+
                 <li>Dashboard</li>
                 <li>Subjects</li>
                 <li>Tasks</li>
@@ -24,118 +37,332 @@
                 <li>Coding</li>
                 <li>Notes</li>
                 <li>Settings</li>
+
             </ul>
+
         </nav>
+
     </aside>
 
 
-    <!-- Main Content -->
+
+    <!-- ========================================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ========================================= -->
+
     <main>
 
-        <!-- Header -->
+
+        <!-- HEADER -->
+
         <header>
+
             <h1>Good afternoon, Yadhav</h1>
-            <p>Welcome to your Campus Command Center</p>
+
+            <p>
+                Welcome to your Campus Command Center
+            </p>
+
         </header>
 
 
-        <!-- Statistics -->
+
+        <!-- ========================================= -->
+        <!-- OVERVIEW -->
+        <!-- ========================================= -->
+
         <section>
+
             <h2>Overview</h2>
 
+
             <div>
+
                 <h3>Today's Tasks</h3>
+
                 <p>3</p>
+
             </div>
 
+
             <div>
+
                 <h3>Projects</h3>
+
                 <p>2</p>
+
             </div>
 
+
             <div>
+
                 <h3>Coding Streak</h3>
+
                 <p>7 Days</p>
+
             </div>
 
+
             <div>
+
                 <h3>Overall Progress</h3>
+
                 <p>72%</p>
+
             </div>
+
         </section>
 
 
-        <!-- Today's Schedule -->
+
+        <!-- ========================================= -->
+        <!-- TODAY'S SCHEDULE -->
+        <!-- ========================================= -->
+
         <section>
+
             <h2>Today's Schedule</h2>
 
-            <div>
-                <p>8:15 AM - Web Development</p>
-            </div>
 
             <div>
-                <p>10:00 AM - Data Structures</p>
+
+                <p>
+                    8:15 AM - Web Development
+                </p>
+
             </div>
 
+
             <div>
-                <p>1:15 PM - Project Work</p>
+
+                <p>
+                    10:00 AM - Data Structures
+                </p>
+
             </div>
+
+
+            <div>
+
+                <p>
+                    1:15 PM - Project Work
+                </p>
+
+            </div>
+
         </section>
 
 
-    <section>
-        <h2>Today's Tasks</h2>
 
-        <div class="task-input">
-        <input type="text" id="taskInput" placeholder="Enter a task">
-        <button id="addTaskBtn">Add Task</button>
-        </div>
+        <!-- ========================================= -->
+        <!-- TASK TRACKER -->
+        <!-- ========================================= -->
 
-        <ul id="taskList"></ul>
-    </section>
-
-
-    <section>
-    <h2>Upcoming Exams</h2>
-
-    <div class="exam-card">
-        <h3>Digital Image Processing</h3>
-
-        <p id="examCountdown">
-            Loading countdown...
-        </p>
-    </div>
-</section>
-
-
-        <!-- Projects -->
         <section>
+
+            <h2>Today's Tasks</h2>
+
+
+            <div class="task-input">
+
+                <input
+                    type="text"
+                    id="taskInput"
+                    placeholder="Enter a task"
+                >
+
+
+                <button id="addTaskBtn">
+                    Add Task
+                </button>
+
+            </div>
+
+
+            <ul id="taskList"></ul>
+
+        </section>
+
+
+
+        <!-- ========================================= -->
+        <!-- STUDY PLANNER -->
+        <!-- ========================================= -->
+
+        <section>
+
+            <h2>Study Planner</h2>
+
+
+            <div class="study-input">
+
+
+                <input
+                    type="text"
+                    id="subjectInput"
+                    placeholder="Enter subject"
+                >
+
+
+                <select id="priorityInput">
+
+                    <option value="High">
+                        🔴 High
+                    </option>
+
+                    <option value="Medium">
+                        🟡 Medium
+                    </option>
+
+                    <option value="Low">
+                        🟢 Low
+                    </option>
+
+                </select>
+
+
+                <button id="addStudyBtn">
+                    Add Study Session
+                </button>
+
+
+            </div>
+
+
+            <!-- Study Sessions -->
+
+            <ul id="studyList"></ul>
+
+
+            <!-- Study Progress -->
+
+            <div class="study-progress">
+
+                <h3>
+                    Study Progress
+                </h3>
+
+
+                <div class="progress-bar">
+
+                    <div id="studyProgress"></div>
+
+                </div>
+
+
+                <p id="studyPercentage">
+                    0%
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================================= -->
+        <!-- UPCOMING EXAMS -->
+        <!-- ========================================= -->
+
+        <section>
+
+            <h2>Upcoming Exams</h2>
+
+
+            <div class="exam-card">
+
+                <h3>
+                    Digital Image Processing
+                </h3>
+
+
+                <p id="examCountdown">
+                    Loading countdown...
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ========================================= -->
+        <!-- PROJECTS -->
+        <!-- ========================================= -->
+
+        <section>
+
             <h2>Projects</h2>
 
-            <div>
-                <h3>Campus Command Center</h3>
-                <p>Progress: 20%</p>
-            </div>
 
             <div>
-                <h3>Data Analytics Project</h3>
-                <p>Progress: 65%</p>
+
+                <h3>
+                    Campus Command Center
+                </h3>
+
+                <p>
+                    Progress: 20%
+                </p>
+
             </div>
+
+
+            <div>
+
+                <h3>
+                    Data Analytics Project
+                </h3>
+
+                <p>
+                    Progress: 65%
+                </p>
+
+            </div>
+
         </section>
 
 
-        <!-- Coding Statistics -->
+
+        <!-- ========================================= -->
+        <!-- CODING STATISTICS -->
+        <!-- ========================================= -->
+
         <section>
-            <h2>Coding Statistics</h2>
 
-            <p>Problems Solved: 50</p>
-            <p>Projects Completed: 2</p>
-            <p>Daily Coding Hours: 2 Hours</p>
+            <h2>
+                Coding Statistics
+            </h2>
+
+
+            <p>
+                Problems Solved: 50
+            </p>
+
+
+            <p>
+                Projects Completed: 2
+            </p>
+
+
+            <p>
+                Daily Coding Hours: 2 Hours
+            </p>
+
         </section>
+
 
     </main>
 
+
+
+    <!-- ========================================= -->
+    <!-- JAVASCRIPT -->
+    <!-- ========================================= -->
+
     <script src="script.js"></script>
 
+
 </body>
+
 </html>

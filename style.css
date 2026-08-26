@@ -203,3 +203,80 @@ section p {
     font-weight: bold;
     margin-top: 15px;
 }
+/* Study Planner */
+
+.study-input {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.study-input input,
+.study-input select {
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #252a35;
+    background-color: #171a21;
+    color: white;
+}
+
+.study-input input {
+    flex: 1;
+}
+
+.study-input button {
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+
+/* Study Sessions */
+
+#studyList {
+    list-style: none;
+    margin-bottom: 25px;
+}
+
+#studyList li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#studyList li span {
+    flex: 1;
+}
+
+
+/* Study Progress */
+
+.study-progress {
+    margin-top: 20px;
+}
+
+.study-progress h3 {
+    margin-bottom: 12px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 12px;
+    background-color: #252a35;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+#studyProgress {
+    width: 0%;
+    height: 100%;
+    background-color: #ffffff;
+    border-radius: 10px;
+    transition: width 0.3s ease;
+}
+
+#studyPercentage {
+    margin-top: 8px;
+    font-weight: bold;
+}

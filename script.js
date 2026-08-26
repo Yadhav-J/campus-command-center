@@ -1,34 +1,21 @@
+// ======================================================
+// CAMPUS COMMAND CENTER - SCRIPT.JS
+// ======================================================
+
+
+// ======================================================
+// TASK TRACKER
+// ======================================================
+
 const taskInput = document.getElementById("taskInput");
 const addTaskBtn = document.getElementById("addTaskBtn");
 const taskList = document.getElementById("taskList");
 
 let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-displayTasks();
-
-addTaskBtn.addEventListener("click", addTask);
-
-function addTask() {
-
-    const taskText = taskInput.value.trim();
-
-    if (taskText === "") {
-        return;
-    }
-
-    const task = {
-        text: taskText,
-        completed: false
-    };
-
-    tasks.push(task);
-
-    saveTasks();
-    displayTasks();
-
-    taskInput.value = "";
+function saveTasks() {
+    localStorage.setItem("tasks", JSON.stringify(tasks));
 }
-
 
 function displayTasks() {
 
@@ -58,6 +45,24 @@ function displayTasks() {
     });
 }
 
+function addTask() {
+
+    const text = taskInput.value.trim();
+
+    if (text === "") {
+        return;
+    }
+
+    tasks.push({
+        text: text,
+        completed: false
+    });
+
+    saveTasks();
+    displayTasks();
+
+    taskInput.value = "";
+}
 
 function completeTask(index) {
 
@@ -67,7 +72,6 @@ function completeTask(index) {
     displayTasks();
 }
 
-
 function deleteTask(index) {
 
     tasks.splice(index, 1);
@@ -76,14 +80,23 @@ function deleteTask(index) {
     displayTasks();
 }
 
+addTaskBtn.addEventListener("click", addTask);
 
-function saveTasks() {
+displayTasks();
 
-    localStorage.setItem("tasks", JSON.stringify(tasks));
-}
-const examDate = new Date("September 8, 2026 09:00:00").getTime();
 
-const countdown = setInterval(function() {
+
+// ======================================================
+// EXAM COUNTDOWN
+// ======================================================
+
+const examCountdown =
+    document.getElementById("examCountdown");
+
+const examDate =
+    new Date("September 8, 2026 09:00:00").getTime();
+
+function updateCountdown() {
 
     const now = new Date().getTime();
 
@@ -91,10 +104,8 @@ const countdown = setInterval(function() {
 
     if (difference <= 0) {
 
-        document.getElementById("examCountdown").innerHTML =
+        examCountdown.textContent =
             "Exam Started";
-
-        clearInterval(countdown);
 
         return;
     }
@@ -115,7 +126,237 @@ const countdown = setInterval(function() {
         (difference / 1000) % 60
     );
 
-    document.getElementById("examCountdown").innerHTML =
+    examCountdown.textContent =
         `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+}
 
-}, 1000);
+updateCountdown();
+
+setInterval(updateCountdown, 1000);
+
+
+
+// ======================================================
+// STUDY PLANNER
+// ======================================================
+
+const subjectInput =
+    document.getElementById("subjectInput");
+
+const priorityInput =
+    document.getElementById("priorityInput");
+
+const addStudyBtn =
+    document.getElementById("addStudyBtn");
+
+const studyList =
+    document.getElementById("studyList");
+
+const studyProgress =
+    document.getElementById("studyProgress");
+
+const studyPercentage =
+    document.getElementById("studyPercentage");
+
+
+// Load study sessions
+let studySessions =
+    JSON.parse(
+        localStorage.getItem("studySessions")
+    ) || [];
+
+
+// Save study sessions
+function saveStudySessions() {
+
+    localStorage.setItem(
+        "studySessions",
+        JSON.stringify(studySessions)
+    );
+}
+
+
+// Add study session
+function addStudySession() {
+
+    const subject =
+        subjectInput.value.trim();
+
+    const priority =
+        priorityInput.value;
+
+
+    // Prevent empty input
+    if (subject === "") {
+
+        alert("Please enter a subject.");
+
+        return;
+    }
+
+
+    // Create study session
+    const session = {
+
+        subject: subject,
+
+        priority: priority,
+
+        completed: false
+
+    };
+
+
+    // Add to array
+    studySessions.push(session);
+
+
+    // Save
+    saveStudySessions();
+
+
+    // Display
+    displayStudySessions();
+
+
+    // Clear input
+    subjectInput.value = "";
+
+}
+
+
+// Display study sessions
+function displayStudySessions() {
+
+    studyList.innerHTML = "";
+
+
+    studySessions.forEach(
+        function(session, index) {
+
+            const li =
+                document.createElement("li");
+
+
+            if (session.completed) {
+
+                li.classList.add("completed");
+
+            }
+
+
+            li.innerHTML = `
+
+                <span>
+                    ${session.subject}
+                    - ${session.priority}
+                </span>
+
+                <button
+                    onclick="completeStudy(${index})"
+                >
+                    ${
+                        session.completed
+                        ? "Undo"
+                        : "Complete"
+                    }
+                </button>
+
+                <button
+                    onclick="deleteStudy(${index})"
+                >
+                    Delete
+                </button>
+
+            `;
+
+
+            studyList.appendChild(li);
+
+        }
+    );
+
+
+    updateStudyProgress();
+}
+
+
+// Complete study session
+function completeStudy(index) {
+
+    studySessions[index].completed =
+        !studySessions[index].completed;
+
+
+    saveStudySessions();
+
+    displayStudySessions();
+}
+
+
+// Delete study session
+function deleteStudy(index) {
+
+    studySessions.splice(index, 1);
+
+
+    saveStudySessions();
+
+    displayStudySessions();
+}
+
+
+// Calculate progress
+function updateStudyProgress() {
+
+    if (studySessions.length === 0) {
+
+        studyProgress.style.width = "0%";
+
+        studyPercentage.textContent = "0%";
+
+        return;
+    }
+
+
+    let completedSessions = 0;
+
+
+    studySessions.forEach(
+        function(session) {
+
+            if (session.completed) {
+
+                completedSessions++;
+
+            }
+
+        }
+    );
+
+
+    const percentage =
+        Math.round(
+            (completedSessions /
+            studySessions.length) * 100
+        );
+
+
+    studyProgress.style.width =
+        percentage + "%";
+
+
+    studyPercentage.textContent =
+        percentage + "%";
+}
+
+
+// Connect button
+addStudyBtn.addEventListener(
+    "click",
+    addStudySession
+);
+
+
+// Display saved sessions
+displayStudySessions();
