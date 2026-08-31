@@ -1,3 +1,13 @@
+/* =====================================================
+   CAMPUS COMMAND CENTER
+   COMPLETE STYLE
+   ===================================================== */
+
+
+/* =====================================================
+   GLOBAL
+   ===================================================== */
+
 * {
     margin: 0;
     padding: 0;
@@ -5,26 +15,41 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #0f1117;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #0d1117;
     color: #ffffff;
-    display: flex;
     min-height: 100vh;
 }
 
-/* Sidebar */
+button,
+input,
+select {
+    font-family: inherit;
+}
+
+
+/* =====================================================
+   SIDEBAR
+   ===================================================== */
 
 aside {
     width: 240px;
-    background-color: #171a21;
-    padding: 25px 20px;
+    min-height: 100vh;
+    background-color: #11161d;
+    border-right: 1px solid #252a35;
+    padding: 25px 18px;
+
     position: fixed;
-    height: 100vh;
+
+    left: 0;
+    top: 0;
+    bottom: 0;
 }
 
 aside h2 {
+    font-size: 20px;
     margin-bottom: 35px;
-    font-size: 22px;
+    padding-left: 10px;
 }
 
 nav ul {
@@ -32,32 +57,43 @@ nav ul {
 }
 
 nav ul li {
-    padding: 14px 12px;
-    margin-bottom: 8px;
-    color: #a8adb7;
+    padding: 13px 12px;
+    margin-bottom: 5px;
+
     border-radius: 8px;
+
+    color: #a8b0bd;
+
     cursor: pointer;
+
+    transition: 0.2s;
 }
 
 nav ul li:hover {
-    background-color: #252a35;
-    color: #ffffff;
+    background-color: #1b222c;
+    color: white;
 }
 
 
-/* Main Content */
+/* =====================================================
+   MAIN
+   ===================================================== */
 
 main {
-    margin-left: 240px;
     width: calc(100% - 240px);
+
+    margin-left: 240px;
+
     padding: 35px;
 }
 
 
-/* Header */
+/* =====================================================
+   HEADER
+   ===================================================== */
 
 header {
-    margin-bottom: 35px;
+    margin-bottom: 30px;
 }
 
 header h1 {
@@ -66,254 +102,431 @@ header h1 {
 }
 
 header p {
-    color: #8f96a3;
+    color: #8b949e;
 }
 
 
-/* Sections */
+/* =====================================================
+   SECTIONS
+   ===================================================== */
 
 section {
-    margin-bottom: 30px;
+    background-color: #11161d;
+
+    border: 1px solid #252a35;
+
+    border-radius: 14px;
+
+    padding: 25px;
+
+    margin-bottom: 25px;
 }
 
 section > h2 {
+    margin-bottom: 20px;
+
     font-size: 20px;
-    margin-bottom: 15px;
 }
 
 
-/* Overview Cards */
+/* =====================================================
+   OVERVIEW
+   ===================================================== */
 
-section:first-of-type {
+.overview-section {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 20px;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
 }
 
-section:first-of-type h2 {
+.overview-section > h2 {
     grid-column: 1 / -1;
 }
 
-section:first-of-type div {
-    background-color: #171a21;
-    padding: 22px;
-    border-radius: 12px;
-    border: 1px solid #252a35;
-}
+.overview-card {
+    background-color: #171d25;
 
-section:first-of-type div:hover {
-    transform: translateY(-3px);
+    border: 1px solid #252a35;
+
+    border-radius: 10px;
+
+    padding: 20px;
+
     transition: 0.2s;
 }
 
-section:first-of-type h3 {
-    color: #8f96a3;
+.overview-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #3a424f;
+}
+
+.overview-card h3 {
+    color: #8b949e;
+
     font-size: 14px;
+
     margin-bottom: 12px;
 }
 
-section:first-of-type div p {
-    font-size: 28px;
-    font-weight: bold;
-}
-
-
-/* General Content Cards */
-
-section:not(:first-of-type) div {
-    background-color: #171a21;
-    padding: 18px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    border: 1px solid #252a35;
-}
-
-
-/* Lists */
-
-section ul {
-    list-style: none;
-}
-
-section ul li {
-    background-color: #171a21;
-    padding: 15px;
-    margin-bottom: 10px;
-    border-radius: 10px;
-    border: 1px solid #252a35;
-    color: #d7dae0;
-}
-
-
-/* Text */
-
-section p {
-    color: #b8bdc7;
-}
-
-
-/* Mobile */
-
-@media (max-width: 900px) {
-
-    aside {
-        width: 200px;
-    }
-
-    main {
-        margin-left: 200px;
-        width: calc(100% - 200px);
-        padding: 25px;
-    }
-
-    section:first-of-type {
-        grid-template-columns: repeat(2, 1fr);
-    }
-}
-
-
-@media (max-width: 600px) {
-
-    body {
-        display: block;
-    }
-
-    aside {
-        position: relative;
-        width: 100%;
-        height: auto;
-    }
-
-    main {
-        margin-left: 0;
-        width: 100%;
-        padding: 20px;
-    }
-
-    section:first-of-type {
-        grid-template-columns: 1fr;
-    }
-}
-.exam-card {
-    text-align: center;
-}
-
-#examCountdown {
+.overview-card p {
     font-size: 24px;
+
     font-weight: bold;
-    margin-top: 15px;
 }
-/* Study Planner */
+
+
+/* =====================================================
+   TODAY'S SCHEDULE
+   ===================================================== */
+
+.schedule-item {
+    background-color: #171d25;
+
+    border: 1px solid #252a35;
+
+    padding: 15px;
+
+    border-radius: 8px;
+
+    margin-bottom: 10px;
+}
+
+.schedule-item strong {
+    margin-right: 15px;
+
+    color: white;
+}
+
+
+/* =====================================================
+   TASK TRACKER
+   ===================================================== */
+
+.task-input {
+    display: flex;
+
+    gap: 10px;
+
+    margin-bottom: 20px;
+}
+
+.task-input input {
+    flex: 1;
+
+    padding: 12px;
+
+    border: 1px solid #252a35;
+
+    border-radius: 8px;
+
+    background-color: #171a21;
+
+    color: white;
+
+    font-size: 14px;
+}
+
+.task-input input:focus {
+    outline: none;
+
+    border-color: #555;
+}
+
+#addTaskBtn {
+    padding: 12px 18px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    background-color: white;
+
+    color: black;
+}
+
+#addTaskBtn:hover {
+    transform: translateY(-2px);
+}
+
+#taskList {
+    list-style: none;
+
+    padding: 0;
+}
+
+#taskList li {
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+
+    border: 1px solid #252a35;
+
+    border-radius: 8px;
+
+    background-color: #171a21;
+}
+
+#taskList li span {
+    flex: 1;
+}
+
+#taskList li.completed span {
+    text-decoration: line-through;
+
+    opacity: 0.5;
+}
+
+#taskList button {
+    padding: 7px 12px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   STUDY PLANNER
+   ===================================================== */
 
 .study-input {
-    display: flex;
+    display: grid;
+
+    grid-template-columns:
+        1fr 180px auto;
+
     gap: 10px;
+
     margin-bottom: 20px;
 }
 
 .study-input input,
 .study-input select {
     padding: 12px;
-    border-radius: 8px;
+
     border: 1px solid #252a35;
+
+    border-radius: 8px;
+
     background-color: #171a21;
+
     color: white;
 }
 
-.study-input input {
-    flex: 1;
+.study-input input:focus,
+.study-input select:focus {
+    outline: none;
+
+    border-color: #555;
 }
 
-.study-input button {
+#addStudyBtn {
     padding: 12px 18px;
+
     border: none;
+
     border-radius: 8px;
+
     cursor: pointer;
+
+    font-weight: bold;
+
+    background-color: white;
+
+    color: black;
 }
 
-
-/* Study Sessions */
+#addStudyBtn:hover {
+    transform: translateY(-2px);
+}
 
 #studyList {
     list-style: none;
-    margin-bottom: 25px;
+
+    padding: 0;
 }
 
 #studyList li {
     display: flex;
+
     align-items: center;
+
     gap: 10px;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+
+    border: 1px solid #252a35;
+
+    border-radius: 8px;
+
+    background-color: #171a21;
 }
 
 #studyList li span {
     flex: 1;
 }
 
+#studyList li.completed span {
+    text-decoration: line-through;
 
-/* Study Progress */
-
-.study-progress {
-    margin-top: 20px;
+    opacity: 0.5;
 }
 
-.study-progress h3 {
-    margin-bottom: 12px;
+#studyList button {
+    padding: 7px 12px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   STUDY PROGRESS
+   ===================================================== */
+
+.study-progress {
+    margin-top: 25px;
+}
+
+.progress-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+
+.progress-header h3 {
+    font-size: 15px;
+}
+
+#studyPercentage {
+    font-weight: bold;
 }
 
 .progress-bar {
     width: 100%;
-    height: 12px;
+
+    height: 10px;
+
     background-color: #252a35;
+
     border-radius: 10px;
+
     overflow: hidden;
 }
 
 #studyProgress {
-    width: 0%;
     height: 100%;
-    background-color: #ffffff;
+
+    width: 0%;
+
+    background-color: white;
+
     border-radius: 10px;
+
     transition: width 0.3s ease;
 }
 
-#studyPercentage {
-    margin-top: 8px;
+
+/* =====================================================
+   EXAM COUNTDOWN
+   ===================================================== */
+
+.exam-card {
+    background-color: #171d25;
+
+    border: 1px solid #252a35;
+
+    border-radius: 12px;
+
+    padding: 25px;
+}
+
+.exam-card h3 {
+    margin-bottom: 15px;
+}
+
+#examCountdown {
+    font-size: 22px;
+
     font-weight: bold;
 }
-/* ========================================= */
-/* PROJECT MANAGER */
-/* ========================================= */
+
+
+/* =====================================================
+   PROJECT MANAGER
+   ===================================================== */
 
 .project-input {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
     gap: 12px;
+
     margin-bottom: 25px;
 }
 
 .project-input input,
 .project-input select {
     padding: 12px;
+
     border: 1px solid #252a35;
+
     border-radius: 8px;
+
     background-color: #171a21;
+
     color: white;
+
     font-size: 14px;
 }
 
 .project-input input:focus,
 .project-input select:focus {
     outline: none;
+
     border-color: #555;
 }
 
 #addProjectBtn {
     padding: 12px;
+
     border: none;
+
     border-radius: 8px;
+
     cursor: pointer;
+
     font-weight: bold;
+
     background-color: white;
+
     color: black;
 }
 
@@ -322,20 +535,26 @@ section p {
 }
 
 
-/* ========================================= */
-/* PROJECT CARDS */
-/* ========================================= */
+/* =====================================================
+   PROJECT CARDS
+   ===================================================== */
 
 #projectList {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
     gap: 15px;
 }
 
 .project-card {
     padding: 20px;
+
     border: 1px solid #252a35;
+
     border-radius: 12px;
+
     background-color: #171a21;
 }
 
@@ -345,53 +564,522 @@ section p {
 
 .project-card p {
     margin: 6px 0;
+
+    color: #c9d1d9;
 }
-
-
-/* Project progress */
 
 .project-progress-bar {
     width: 100%;
+
     height: 10px;
+
     margin-top: 12px;
+
     background-color: #252a35;
+
     border-radius: 10px;
+
     overflow: hidden;
 }
 
 .project-progress {
     height: 100%;
-    width: 0%;
+
     border-radius: 10px;
+
     background-color: white;
+
     transition: width 0.3s ease;
 }
 
-
-/* Project buttons */
-
 .project-card button {
     margin-top: 15px;
+
     margin-right: 8px;
+
     padding: 8px 12px;
+
     border: none;
+
     border-radius: 6px;
+
     cursor: pointer;
 }
 
 
-/* ========================================= */
-/* MOBILE RESPONSIVE */
-/* ========================================= */
+/* =====================================================
+   ASSIGNMENT TRACKER
+   ===================================================== */
+
+.assignment-input {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 12px;
+
+    margin-bottom: 25px;
+}
+
+.assignment-input input,
+.assignment-input select {
+    padding: 12px;
+
+    border: 1px solid #252a35;
+
+    border-radius: 8px;
+
+    background-color: #171a21;
+
+    color: white;
+
+    font-size: 14px;
+}
+
+.assignment-input input:focus,
+.assignment-input select:focus {
+    outline: none;
+
+    border-color: #555;
+}
+
+#addAssignmentBtn {
+    padding: 12px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    background-color: white;
+
+    color: black;
+}
+
+#addAssignmentBtn:hover {
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   ASSIGNMENT OVERVIEW
+   ===================================================== */
+
+.assignment-overview {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.assignment-stat {
+    padding: 18px;
+
+    background-color: #171d25;
+
+    border: 1px solid #252a35;
+
+    border-radius: 10px;
+}
+
+.assignment-stat h3 {
+    font-size: 14px;
+
+    color: #8b949e;
+
+    margin-bottom: 10px;
+}
+
+.assignment-stat p {
+    font-size: 25px;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   ASSIGNMENT PROGRESS
+   ===================================================== */
+
+.assignment-progress {
+    margin-bottom: 25px;
+}
+
+.assignment-progress-header {
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    margin-bottom: 10px;
+}
+
+.assignment-progress-header h3 {
+    font-size: 15px;
+}
+
+#assignmentPercentage {
+    font-weight: bold;
+}
+
+.assignment-progress-bar {
+    width: 100%;
+
+    height: 14px;
+
+    background-color: #252a35;
+
+    border-radius: 20px;
+
+    overflow: hidden;
+}
+
+.assignment-progress-fill {
+    height: 100%;
+
+    width: 0%;
+
+    background-color: white;
+
+    border-radius: 20px;
+
+    transition: width 0.4s ease;
+}
+
+
+/* =====================================================
+   ASSIGNMENT CARDS
+   ===================================================== */
+
+#assignmentList {
+    display: grid;
+
+    grid-template-columns:
+        repeat(2, 1fr);
+
+    gap: 15px;
+}
+
+.assignment-card {
+    padding: 20px;
+
+    border: 1px solid #252a35;
+
+    border-radius: 12px;
+
+    background-color: #171a21;
+}
+
+.assignment-card h3 {
+    margin-bottom: 12px;
+}
+
+.assignment-card p {
+    margin: 6px 0;
+
+    color: #c9d1d9;
+}
+
+.assignment-status {
+    display: inline-block;
+
+    margin-top: 10px;
+
+    padding: 5px 10px;
+
+    border-radius: 6px;
+
+    background-color: #252a35;
+
+    font-size: 13px;
+}
+
+.assignment-card button {
+    margin-top: 15px;
+
+    margin-right: 8px;
+
+    padding: 8px 12px;
+
+    border: none;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+}
+
+
+/* =====================================================
+   CODING TRACKER
+   ===================================================== */
+
+.coding-stats {
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-bottom: 25px;
+}
+
+.coding-card {
+    padding: 20px;
+
+    background-color: #171d25;
+
+    border: 1px solid #252a35;
+
+    border-radius: 10px;
+
+    transition: 0.2s;
+}
+
+.coding-card:hover {
+    transform: translateY(-3px);
+
+    border-color: #3a424f;
+}
+
+.coding-card h3 {
+    color: #8b949e;
+
+    font-size: 14px;
+
+    margin-bottom: 12px;
+}
+
+.coding-card p {
+    font-size: 25px;
+
+    font-weight: bold;
+}
+
+
+/* =====================================================
+   CODING INPUT
+   ===================================================== */
+
+.coding-input {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr) auto;
+
+    gap: 10px;
+}
+
+.coding-input input {
+    padding: 12px;
+
+    border: 1px solid #252a35;
+
+    border-radius: 8px;
+
+    background-color: #171a21;
+
+    color: white;
+}
+
+.coding-input input:focus {
+    outline: none;
+
+    border-color: #555;
+}
+
+#updateCodingBtn {
+    padding: 12px 18px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-weight: bold;
+
+    background-color: white;
+
+    color: black;
+}
+
+#updateCodingBtn:hover {
+    transform: translateY(-2px);
+}
+
+
+/* =====================================================
+   GENERAL HOVER
+   ===================================================== */
+
+.project-card,
+.assignment-card,
+.exam-card {
+    transition:
+        transform 0.2s ease,
+        border-color 0.2s ease;
+}
+
+.project-card:hover,
+.assignment-card:hover,
+.exam-card:hover {
+    transform: translateY(-2px);
+
+    border-color: #3a424f;
+}
+
+
+/* =====================================================
+   RESPONSIVE - TABLET
+   ===================================================== */
+
+@media (max-width: 1000px) {
+
+    .overview-section {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .coding-stats {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .assignment-overview {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    #projectList,
+    #assignmentList {
+        grid-template-columns: 1fr;
+    }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE - MOBILE
+   ===================================================== */
 
 @media (max-width: 768px) {
+
+    body {
+        display: block;
+    }
+
+    aside {
+        width: 100%;
+
+        min-height: auto;
+
+        position: relative;
+
+        border-right: none;
+
+        border-bottom: 1px solid #252a35;
+    }
+
+    aside h2 {
+        margin-bottom: 15px;
+    }
+
+    nav ul {
+        display: grid;
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+        gap: 5px;
+    }
+
+    main {
+        width: 100%;
+
+        margin-left: 0;
+
+        padding: 20px;
+    }
+
+    .overview-section {
+        grid-template-columns: 1fr;
+    }
+
+    .task-input {
+        flex-direction: column;
+    }
+
+    .study-input {
+        grid-template-columns: 1fr;
+    }
 
     .project-input {
         grid-template-columns: 1fr;
     }
 
-    #projectList {
+    .assignment-input {
         grid-template-columns: 1fr;
+    }
+
+    .assignment-overview {
+        grid-template-columns:
+            repeat(2, 1fr);
+    }
+
+    .coding-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .coding-input {
+        grid-template-columns: 1fr;
+    }
+
+    #addTaskBtn,
+    #addStudyBtn,
+    #addProjectBtn,
+    #addAssignmentBtn,
+    #updateCodingBtn {
+        width: 100%;
+    }
+
+}
+
+
+/* =====================================================
+   RESPONSIVE - SMALL MOBILE
+   ===================================================== */
+
+@media (max-width: 500px) {
+
+    main {
+        padding: 12px;
+    }
+
+    section {
+        padding: 18px;
+    }
+
+    header h1 {
+        font-size: 24px;
+    }
+
+    .assignment-overview {
+        grid-template-columns: 1fr;
+    }
+
+    #taskList li,
+    #studyList li {
+        flex-wrap: wrap;
     }
 
 }

@@ -5,11 +5,17 @@
 
     <meta charset="UTF-8">
 
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Campus Command Center</title>
 
-    <link rel="stylesheet" href="style.css">
+    <link
+        rel="stylesheet"
+        href="style.css"
+    >
 
 </head>
 
@@ -17,9 +23,9 @@
 <body>
 
 
-    <!-- ========================================= -->
+    <!-- ================================================= -->
     <!-- SIDEBAR -->
-    <!-- ========================================= -->
+    <!-- ================================================= -->
 
     <aside>
 
@@ -46,9 +52,9 @@
 
 
 
-    <!-- ========================================= -->
-    <!-- MAIN CONTENT -->
-    <!-- ========================================= -->
+    <!-- ================================================= -->
+    <!-- MAIN -->
+    <!-- ================================================= -->
 
     <main>
 
@@ -57,7 +63,9 @@
 
         <header>
 
-            <h1>Good afternoon, Yadhav</h1>
+            <h1>
+                Good afternoon, Yadhav
+            </h1>
 
             <p>
                 Welcome to your Campus Command Center
@@ -67,121 +75,54 @@
 
 
 
-        <!-- ========================================= -->
+        <!-- ================================================= -->
         <!-- OVERVIEW -->
-        <!-- ========================================= -->
+        <!-- ================================================= -->
 
-        <!-- ========================================= -->
-<!-- PROJECT MANAGER -->
-<!-- ========================================= -->
+        <section class="overview-section">
 
-<!-- ========================================= -->
-<!-- ASSIGNMENT TRACKER -->
-<!-- ========================================= -->
-
-<section>
-
-    <h2>Assignment Tracker</h2>
-
-    <!-- Assignment Form -->
-
-    <div class="assignment-input">
-
-        <input
-            type="text"
-            id="assignmentNameInput"
-            placeholder="Assignment"
-        >
-
-        <input
-            type="text"
-            id="assignmentSubjectInput"
-            placeholder="Subject"
-        >
-
-        <input
-            type="date"
-            id="assignmentDeadlineInput"
-        >
-
-        <select id="assignmentPriorityInput">
-
-            <option value="High">
-                🔴 High
-            </option>
-
-            <option value="Medium">
-                🟡 Medium
-            </option>
-
-            <option value="Low">
-                🟢 Low
-            </option>
-
-        </select>
-
-        <select id="assignmentStatusInput">
-
-            <option value="Pending">
-                Pending
-            </option>
-
-            <option value="In Progress">
-                In Progress
-            </option>
-
-            <option value="Completed">
-                Completed
-            </option>
-
-        </select>
-
-        <button id="addAssignmentBtn">
-            Add Assignment
-        </button>
-
-    </div>
+            <h2>Overview</h2>
 
 
-    <!-- Assignment List -->
+            <div class="overview-card">
 
-    <div id="assignmentList"></div>
+                <h3>Today's Tasks</h3>
 
-</section>
-
-
-
-        <!-- ========================================= -->
-        <!-- TODAY'S SCHEDULE -->
-        <!-- ========================================= -->
-
-        <section>
-
-            <h2>Today's Schedule</h2>
-
-
-            <div>
-
-                <p>
-                    8:15 AM - Web Development
+                <p id="overviewTasks">
+                    0
                 </p>
 
             </div>
 
 
-            <div>
+            <div class="overview-card">
 
-                <p>
-                    10:00 AM - Data Structures
+                <h3>Projects</h3>
+
+                <p id="overviewProjects">
+                    0
                 </p>
 
             </div>
 
 
-            <div>
+            <div class="overview-card">
 
-                <p>
-                    1:15 PM - Project Work
+                <h3>Coding Streak</h3>
+
+                <p id="overviewStreak">
+                    0 Days
+                </p>
+
+            </div>
+
+
+            <div class="overview-card">
+
+                <h3>Overall Progress</h3>
+
+                <p id="overviewProgress">
+                    0%
                 </p>
 
             </div>
@@ -190,9 +131,51 @@
 
 
 
-        <!-- ========================================= -->
+        <!-- ================================================= -->
+        <!-- TODAY'S SCHEDULE -->
+        <!-- ================================================= -->
+
+        <section>
+
+            <h2>Today's Schedule</h2>
+
+
+            <div class="schedule-item">
+
+                <p>
+                    <strong>8:15 AM</strong>
+                    Web Development
+                </p>
+
+            </div>
+
+
+            <div class="schedule-item">
+
+                <p>
+                    <strong>10:00 AM</strong>
+                    Data Structures
+                </p>
+
+            </div>
+
+
+            <div class="schedule-item">
+
+                <p>
+                    <strong>1:15 PM</strong>
+                    Project Work
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
         <!-- TASK TRACKER -->
-        <!-- ========================================= -->
+        <!-- ================================================= -->
 
         <section>
 
@@ -207,7 +190,6 @@
                     placeholder="Enter a task"
                 >
 
-
                 <button id="addTaskBtn">
                     Add Task
                 </button>
@@ -221,9 +203,9 @@
 
 
 
-        <!-- ========================================= -->
+        <!-- ================================================= -->
         <!-- STUDY PLANNER -->
-        <!-- ========================================= -->
+        <!-- ================================================= -->
 
         <section>
 
@@ -231,7 +213,6 @@
 
 
             <div class="study-input">
-
 
                 <input
                     type="text"
@@ -261,22 +242,25 @@
                     Add Study Session
                 </button>
 
-
             </div>
 
-
-            <!-- Study Sessions -->
 
             <ul id="studyList"></ul>
 
 
-            <!-- Study Progress -->
-
             <div class="study-progress">
 
-                <h3>
-                    Study Progress
-                </h3>
+                <div class="progress-header">
+
+                    <h3>
+                        Study Progress
+                    </h3>
+
+                    <span id="studyPercentage">
+                        0%
+                    </span>
+
+                </div>
 
 
                 <div class="progress-bar">
@@ -285,20 +269,15 @@
 
                 </div>
 
-
-                <p id="studyPercentage">
-                    0%
-                </p>
-
             </div>
 
         </section>
 
 
 
-        <!-- ========================================= -->
-        <!-- UPCOMING EXAMS -->
-        <!-- ========================================= -->
+        <!-- ================================================= -->
+        <!-- EXAM COUNTDOWN -->
+        <!-- ================================================= -->
 
         <section>
 
@@ -322,68 +301,349 @@
 
 
 
-        <!-- ========================================= -->
-        <!-- PROJECTS -->
-        <!-- ========================================= -->
+        <!-- ================================================= -->
+        <!-- PROJECT MANAGER -->
+        <!-- ================================================= -->
 
         <section>
 
-            <h2>Projects</h2>
+            <h2>Project Manager</h2>
 
 
-            <div>
+            <div class="project-input">
 
-                <h3>
-                    Campus Command Center
-                </h3>
 
-                <p>
-                    Progress: 20%
-                </p>
+                <input
+                    type="text"
+                    id="projectNameInput"
+                    placeholder="Project Name"
+                >
+
+
+                <input
+                    type="text"
+                    id="technologyInput"
+                    placeholder="Technology"
+                >
+
+
+                <input
+                    type="url"
+                    id="githubInput"
+                    placeholder="GitHub Repository"
+                >
+
+
+                <input
+                    type="number"
+                    id="progressInput"
+                    placeholder="Progress %"
+                    min="0"
+                    max="100"
+                >
+
+
+                <input
+                    type="date"
+                    id="deadlineInput"
+                >
+
+
+                <select id="statusInput">
+
+                    <option value="Planning">
+                        Planning
+                    </option>
+
+                    <option value="In Progress">
+                        In Progress
+                    </option>
+
+                    <option value="Completed">
+                        Completed
+                    </option>
+
+                </select>
+
+
+                <button id="addProjectBtn">
+                    Add Project
+                </button>
 
             </div>
 
 
-            <div>
-
-                <h3>
-                    Data Analytics Project
-                </h3>
-
-                <p>
-                    Progress: 65%
-                </p>
-
-            </div>
+            <div id="projectList"></div>
 
         </section>
 
 
 
-        <!-- ========================================= -->
-        <!-- CODING STATISTICS -->
-        <!-- ========================================= -->
+        <!-- ================================================= -->
+        <!-- ASSIGNMENT TRACKER -->
+        <!-- ================================================= -->
 
         <section>
 
-            <h2>
-                Coding Statistics
-            </h2>
+            <h2>Assignment Tracker</h2>
 
 
-            <p>
-                Problems Solved: 50
-            </p>
+            <div class="assignment-input">
 
 
-            <p>
-                Projects Completed: 2
-            </p>
+                <input
+                    type="text"
+                    id="assignmentNameInput"
+                    placeholder="Assignment"
+                >
 
 
-            <p>
-                Daily Coding Hours: 2 Hours
-            </p>
+                <input
+                    type="text"
+                    id="assignmentSubjectInput"
+                    placeholder="Subject"
+                >
+
+
+                <input
+                    type="date"
+                    id="assignmentDeadlineInput"
+                >
+
+
+                <select
+                    id="assignmentPriorityInput"
+                >
+
+                    <option value="High">
+                        🔴 High
+                    </option>
+
+                    <option value="Medium">
+                        🟡 Medium
+                    </option>
+
+                    <option value="Low">
+                        🟢 Low
+                    </option>
+
+                </select>
+
+
+                <select
+                    id="assignmentStatusInput"
+                >
+
+                    <option value="Pending">
+                        Pending
+                    </option>
+
+                    <option value="In Progress">
+                        In Progress
+                    </option>
+
+                    <option value="Completed">
+                        Completed
+                    </option>
+
+                </select>
+
+
+                <button id="addAssignmentBtn">
+                    Add Assignment
+                </button>
+
+            </div>
+
+
+
+            <!-- ASSIGNMENT STATISTICS -->
+
+            <div class="assignment-overview">
+
+
+                <div class="assignment-stat">
+
+                    <h3>Total</h3>
+
+                    <p id="totalAssignments">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="assignment-stat">
+
+                    <h3>Pending</h3>
+
+                    <p id="pendingAssignments">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="assignment-stat">
+
+                    <h3>In Progress</h3>
+
+                    <p id="inProgressAssignments">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="assignment-stat">
+
+                    <h3>Completed</h3>
+
+                    <p id="completedAssignments">
+                        0
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- ASSIGNMENT PROGRESS -->
+
+            <div class="assignment-progress">
+
+                <div class="assignment-progress-header">
+
+                    <h3>
+                        Assignment Completion
+                    </h3>
+
+                    <span id="assignmentPercentage">
+                        0%
+                    </span>
+
+                </div>
+
+
+                <div class="assignment-progress-bar">
+
+                    <div
+                        id="assignmentProgress"
+                        class="assignment-progress-fill"
+                    ></div>
+
+                </div>
+
+            </div>
+
+
+            <!-- ASSIGNMENT LIST -->
+
+            <div id="assignmentList"></div>
+
+        </section>
+
+
+
+        <!-- ================================================= -->
+        <!-- CODING TRACKER -->
+        <!-- ================================================= -->
+
+        <section>
+
+            <h2>Coding Tracker</h2>
+
+
+            <div class="coding-stats">
+
+
+                <div class="coding-card">
+
+                    <h3>
+                        Problems Solved
+                    </h3>
+
+                    <p id="problemsSolved">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="coding-card">
+
+                    <h3>
+                        Coding Hours
+                    </h3>
+
+                    <p id="codingHours">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="coding-card">
+
+                    <h3>
+                        Projects Completed
+                    </h3>
+
+                    <p id="codingProjects">
+                        0
+                    </p>
+
+                </div>
+
+
+                <div class="coding-card">
+
+                    <h3>
+                        Current Streak
+                    </h3>
+
+                    <p id="codingStreak">
+                        0 Days
+                    </p>
+
+                </div>
+
+            </div>
+
+
+            <div class="coding-input">
+
+
+                <input
+                    type="number"
+                    id="problemsInput"
+                    placeholder="Problems Solved"
+                    min="0"
+                >
+
+
+                <input
+                    type="number"
+                    id="hoursInput"
+                    placeholder="Coding Hours"
+                    min="0"
+                >
+
+
+                <input
+                    type="number"
+                    id="projectsInput"
+                    placeholder="Projects Completed"
+                    min="0"
+                >
+
+
+                <button id="updateCodingBtn">
+                    Update Statistics
+                </button>
+
+            </div>
 
         </section>
 
@@ -391,13 +651,11 @@
     </main>
 
 
-
-    <!-- ========================================= -->
+    <!-- ================================================= -->
     <!-- JAVASCRIPT -->
-    <!-- ========================================= -->
+    <!-- ================================================= -->
 
     <script src="script.js"></script>
-
 
 </body>
 
