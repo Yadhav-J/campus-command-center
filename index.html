@@ -75,49 +75,55 @@
 <!-- PROJECT MANAGER -->
 <!-- ========================================= -->
 
+<!-- ========================================= -->
+<!-- ASSIGNMENT TRACKER -->
+<!-- ========================================= -->
+
 <section>
 
-    <h2>Project Manager</h2>
+    <h2>Assignment Tracker</h2>
 
-    <!-- Add Project Form -->
+    <!-- Assignment Form -->
 
-    <div class="project-input">
-
-        <input
-            type="text"
-            id="projectNameInput"
-            placeholder="Project Name"
-        >
+    <div class="assignment-input">
 
         <input
             type="text"
-            id="technologyInput"
-            placeholder="Technology"
+            id="assignmentNameInput"
+            placeholder="Assignment"
         >
 
         <input
-            type="url"
-            id="githubInput"
-            placeholder="GitHub Repository"
-        >
-
-        <input
-            type="number"
-            id="progressInput"
-            placeholder="Progress %"
-            min="0"
-            max="100"
+            type="text"
+            id="assignmentSubjectInput"
+            placeholder="Subject"
         >
 
         <input
             type="date"
-            id="deadlineInput"
+            id="assignmentDeadlineInput"
         >
 
-        <select id="statusInput">
+        <select id="assignmentPriorityInput">
 
-            <option value="Planning">
-                Planning
+            <option value="High">
+                🔴 High
+            </option>
+
+            <option value="Medium">
+                🟡 Medium
+            </option>
+
+            <option value="Low">
+                🟢 Low
+            </option>
+
+        </select>
+
+        <select id="assignmentStatusInput">
+
+            <option value="Pending">
+                Pending
             </option>
 
             <option value="In Progress">
@@ -130,16 +136,16 @@
 
         </select>
 
-        <button id="addProjectBtn">
-            Add Project
+        <button id="addAssignmentBtn">
+            Add Assignment
         </button>
 
     </div>
 
 
-    <!-- Project List -->
+    <!-- Assignment List -->
 
-    <div id="projectList"></div>
+    <div id="assignmentList"></div>
 
 </section>
 

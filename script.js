@@ -360,3 +360,250 @@ addStudyBtn.addEventListener(
 
 // Display saved sessions
 displayStudySessions();
+// ======================================================
+// PROJECT MANAGER
+// ======================================================
+
+// Get project elements
+const projectNameInput =
+    document.getElementById("projectNameInput");
+
+const technologyInput =
+    document.getElementById("technologyInput");
+
+const githubInput =
+    document.getElementById("githubInput");
+
+const progressInput =
+    document.getElementById("progressInput");
+
+const deadlineInput =
+    document.getElementById("deadlineInput");
+
+const statusInput =
+    document.getElementById("statusInput");
+
+const addProjectBtn =
+    document.getElementById("addProjectBtn");
+
+const projectList =
+    document.getElementById("projectList");
+
+
+// Load projects from LocalStorage
+let projects =
+    JSON.parse(
+        localStorage.getItem("projects")
+    ) || [];
+
+
+// Save projects
+function saveProjects() {
+
+    localStorage.setItem(
+        "projects",
+        JSON.stringify(projects)
+    );
+}
+
+
+// Add project
+function addProject() {
+
+    const projectName =
+        projectNameInput.value.trim();
+
+    const technology =
+        technologyInput.value.trim();
+
+    const github =
+        githubInput.value.trim();
+
+    const progress =
+        Number(progressInput.value);
+
+    const deadline =
+        deadlineInput.value;
+
+    const status =
+        statusInput.value;
+
+
+    // Check required fields
+    if (
+        projectName === "" ||
+        technology === "" ||
+        deadline === ""
+    ) {
+
+        alert(
+            "Please fill Project Name, Technology and Deadline."
+        );
+
+        return;
+    }
+
+
+    // Check progress
+    if (
+        progress < 0 ||
+        progress > 100 ||
+        isNaN(progress)
+    ) {
+
+        alert(
+            "Progress must be between 0 and 100."
+        );
+
+        return;
+    }
+
+
+    // Create project
+    const project = {
+
+        name: projectName,
+
+        technology: technology,
+
+        github: github,
+
+        progress: progress,
+
+        deadline: deadline,
+
+        status: status
+
+    };
+
+
+    // Add project
+    projects.push(project);
+
+
+    // Save
+    saveProjects();
+
+
+    // Display
+    displayProjects();
+
+
+    // Clear form
+    projectNameInput.value = "";
+    technologyInput.value = "";
+    githubInput.value = "";
+    progressInput.value = "";
+    deadlineInput.value = "";
+    statusInput.value = "Planning";
+}
+
+
+// Display projects
+function displayProjects() {
+
+    projectList.innerHTML = "";
+
+
+    projects.forEach(
+        function(project, index) {
+
+            const card =
+                document.createElement("div");
+
+            card.classList.add("project-card");
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${project.name}
+                </h3>
+
+                <p>
+                    <strong>Technology:</strong>
+                    ${project.technology}
+                </p>
+
+                <p>
+                    <strong>Status:</strong>
+                    ${project.status}
+                </p>
+
+                <p>
+                    <strong>Deadline:</strong>
+                    ${project.deadline}
+                </p>
+
+                <p>
+                    <strong>Progress:</strong>
+                    ${project.progress}%
+                </p>
+
+                <div class="project-progress-bar">
+
+                    <div
+                        class="project-progress"
+                        style="width: ${project.progress}%"
+                    ></div>
+
+                </div>
+
+                ${
+                    project.github
+                    ? `
+                        <button
+                            onclick="openGithub('${project.github}')"
+                        >
+                            GitHub
+                        </button>
+                    `
+                    : ""
+                }
+
+                <button
+                    onclick="deleteProject(${index})"
+                >
+                    Delete
+                </button>
+
+            `;
+
+
+            projectList.appendChild(card);
+
+        }
+    );
+}
+
+
+// Open GitHub repository
+function openGithub(url) {
+
+    window.open(
+        url,
+        "_blank"
+    );
+}
+
+
+// Delete project
+function deleteProject(index) {
+
+    projects.splice(index, 1);
+
+    saveProjects();
+
+    displayProjects();
+}
+
+
+// Add project button
+addProjectBtn.addEventListener(
+    "click",
+    addProject
+);
+
+
+// Display saved projects when page loads
+displayProjects();
