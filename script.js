@@ -1,43 +1,190 @@
-// ======================================================
-// CAMPUS COMMAND CENTER
-// COMPLETE SCRIPT.JS
-// ======================================================
+```javascript
+/* =====================================================
+   CAMPUS COMMAND CENTER
+   COMPLETE JAVASCRIPT
+   ===================================================== */
+
+
+/* =====================================================
+   NAVIGATION
+   ===================================================== */
+
+const navItems =
+    document.querySelectorAll(".nav-item");
+
+const pages =
+    document.querySelectorAll(".page");
+
+const pageTitle =
+    document.getElementById("pageTitle");
+
+const pageSubtitle =
+    document.getElementById("pageSubtitle");
+
+
+const pageInfo = {
+
+    dashboard: [
+        "Dashboard",
+        "Your college life, organized."
+    ],
+
+    tasks: [
+        "Task Tracker",
+        "Manage your daily tasks."
+    ],
+
+    study: [
+        "Study Planner",
+        "Plan and track your study sessions."
+    ],
+
+    assignments: [
+        "Assignment Tracker",
+        "Track your assignments."
+    ],
+
+    exams: [
+        "Exam Countdown",
+        "Keep track of upcoming exams."
+    ],
+
+    projects: [
+        "Project Manager",
+        "Manage your projects."
+    ],
+
+    coding: [
+        "Coding Tracker",
+        "Track your programming progress."
+    ]
+
+};
+
+
+function showPage(pageName) {
+
+    pages.forEach(function(page) {
+
+        page.classList.remove(
+            "active-page"
+        );
+
+    });
+
+
+    navItems.forEach(function(item) {
+
+        item.classList.remove(
+            "active"
+        );
+
+    });
+
+
+    const selectedPage =
+        document.getElementById(pageName);
+
+
+    if (selectedPage) {
+
+        selectedPage.classList.add(
+            "active-page"
+        );
+
+    }
+
+
+    navItems.forEach(function(item) {
+
+        if (
+            item.dataset.page ===
+            pageName
+        ) {
+
+            item.classList.add(
+                "active"
+            );
+
+        }
+
+    });
+
+
+    if (pageInfo[pageName]) {
+
+        pageTitle.textContent =
+            pageInfo[pageName][0];
+
+        pageSubtitle.textContent =
+            pageInfo[pageName][1];
+
+    }
+
+}
+
+
+navItems.forEach(function(item) {
+
+    item.addEventListener(
+        "click",
+        function() {
+
+            showPage(
+                item.dataset.page
+            );
+
+        }
+    );
+
+});
 
 
 
-// ======================================================
-// TASK TRACKER
-// ======================================================
+/* =====================================================
+   TASK TRACKER
+   ===================================================== */
 
 const taskInput =
-    document.getElementById("taskInput");
+    document.getElementById(
+        "taskInput"
+    );
 
 const addTaskBtn =
-    document.getElementById("addTaskBtn");
+    document.getElementById(
+        "addTaskBtn"
+    );
 
 const taskList =
-    document.getElementById("taskList");
+    document.getElementById(
+        "taskList"
+    );
 
 
 let tasks =
     JSON.parse(
-        localStorage.getItem("tasks")
+        localStorage.getItem(
+            "campusTasks"
+        )
     ) || [];
-
 
 
 function saveTasks() {
 
     localStorage.setItem(
-        "tasks",
+        "campusTasks",
         JSON.stringify(tasks)
     );
 
 }
 
 
+function renderTasks() {
 
-function displayTasks() {
+    if (!taskList) {
+        return;
+    }
+
 
     taskList.innerHTML = "";
 
@@ -46,7 +193,9 @@ function displayTasks() {
         function(task, index) {
 
             const li =
-                document.createElement("li");
+                document.createElement(
+                    "li"
+                );
 
 
             if (task.completed) {
@@ -58,29 +207,67 @@ function displayTasks() {
             }
 
 
-            li.innerHTML = `
+            const span =
+                document.createElement(
+                    "span"
+                );
 
-                <span>
-                    ${task.text}
-                </span>
 
-                <button
-                    onclick="completeTask(${index})"
-                >
-                    ${
-                        task.completed
-                        ? "Undo"
-                        : "Complete"
-                    }
-                </button>
+            span.textContent =
+                task.text;
 
-                <button
-                    onclick="deleteTask(${index})"
-                >
-                    Delete
-                </button>
 
-            `;
+            const completeBtn =
+                document.createElement(
+                    "button"
+                );
+
+
+            completeBtn.textContent =
+                task.completed
+                ? "Undo"
+                : "Complete";
+
+
+            completeBtn.addEventListener(
+                "click",
+                function() {
+
+                    toggleTask(index);
+
+                }
+            );
+
+
+            const deleteBtn =
+                document.createElement(
+                    "button"
+                );
+
+
+            deleteBtn.textContent =
+                "Delete";
+
+
+            deleteBtn.addEventListener(
+                "click",
+                function() {
+
+                    deleteTask(index);
+
+                }
+            );
+
+
+            li.appendChild(span);
+
+            li.appendChild(
+                completeBtn
+            );
+
+            li.appendChild(
+                deleteBtn
+            );
 
 
             taskList.appendChild(li);
@@ -89,10 +276,9 @@ function displayTasks() {
     );
 
 
-    updateOverview();
+    updateDashboard();
 
 }
-
 
 
 function addTask() {
@@ -119,7 +305,7 @@ function addTask() {
 
     saveTasks();
 
-    displayTasks();
+    renderTasks();
 
 
     taskInput.value = "";
@@ -127,8 +313,7 @@ function addTask() {
 }
 
 
-
-function completeTask(index) {
+function toggleTask(index) {
 
     tasks[index].completed =
         !tasks[index].completed;
@@ -136,23 +321,24 @@ function completeTask(index) {
 
     saveTasks();
 
-    displayTasks();
+    renderTasks();
 
 }
-
 
 
 function deleteTask(index) {
 
-    tasks.splice(index, 1);
+    tasks.splice(
+        index,
+        1
+    );
 
 
     saveTasks();
 
-    displayTasks();
+    renderTasks();
 
 }
-
 
 
 addTaskBtn.addEventListener(
@@ -161,19 +347,304 @@ addTaskBtn.addEventListener(
 );
 
 
-displayTasks();
+taskInput.addEventListener(
+    "keypress",
+    function(event) {
+
+        if (
+            event.key ===
+            "Enter"
+        ) {
+
+            addTask();
+
+        }
+
+    }
+);
 
 
 
+/* =====================================================
+   STUDY PLANNER
+   ===================================================== */
+
+const subjectInput =
+    document.getElementById(
+        "subjectInput"
+    );
+
+const priorityInput =
+    document.getElementById(
+        "priorityInput"
+    );
+
+const addStudyBtn =
+    document.getElementById(
+        "addStudyBtn"
+    );
+
+const studyList =
+    document.getElementById(
+        "studyList"
+    );
+
+const studyProgress =
+    document.getElementById(
+        "studyProgress"
+    );
+
+const studyPercentage =
+    document.getElementById(
+        "studyPercentage"
+    );
 
 
-// ======================================================
-// EXAM COUNTDOWN
-// ======================================================
+let studySessions =
+    JSON.parse(
+        localStorage.getItem(
+            "campusStudy"
+        )
+    ) || [];
+
+
+function saveStudy() {
+
+    localStorage.setItem(
+        "campusStudy",
+        JSON.stringify(
+            studySessions
+        )
+    );
+
+}
+
+
+function renderStudy() {
+
+    studyList.innerHTML = "";
+
+
+    studySessions.forEach(
+        function(session, index) {
+
+            const li =
+                document.createElement(
+                    "li"
+                );
+
+
+            if (session.completed) {
+
+                li.classList.add(
+                    "completed"
+                );
+
+            }
+
+
+            const span =
+                document.createElement(
+                    "span"
+                );
+
+
+            span.textContent =
+                `${session.subject} - ${session.priority}`;
+
+
+            const completeBtn =
+                document.createElement(
+                    "button"
+                );
+
+
+            completeBtn.textContent =
+                session.completed
+                ? "Undo"
+                : "Complete";
+
+
+            completeBtn.addEventListener(
+                "click",
+                function() {
+
+                    studySessions[index].completed =
+                        !studySessions[index].completed;
+
+                    saveStudy();
+
+                    renderStudy();
+
+                }
+            );
+
+
+            const deleteBtn =
+                document.createElement(
+                    "button"
+                );
+
+
+            deleteBtn.textContent =
+                "Delete";
+
+
+            deleteBtn.addEventListener(
+                "click",
+                function() {
+
+                    studySessions.splice(
+                        index,
+                        1
+                    );
+
+                    saveStudy();
+
+                    renderStudy();
+
+                }
+            );
+
+
+            li.appendChild(span);
+
+            li.appendChild(
+                completeBtn
+            );
+
+            li.appendChild(
+                deleteBtn
+            );
+
+
+            studyList.appendChild(li);
+
+        }
+    );
+
+
+    updateStudyProgress();
+
+}
+
+
+function addStudy() {
+
+    const subject =
+        subjectInput.value.trim();
+
+
+    if (subject === "") {
+
+        return;
+
+    }
+
+
+    studySessions.push({
+
+        subject: subject,
+
+        priority:
+            priorityInput.value,
+
+        completed: false
+
+    });
+
+
+    saveStudy();
+
+    renderStudy();
+
+
+    subjectInput.value = "";
+
+}
+
+
+function updateStudyProgress() {
+
+    const total =
+        studySessions.length;
+
+
+    const completed =
+        studySessions.filter(
+            function(session) {
+
+                return session.completed;
+
+            }
+        ).length;
+
+
+    let percentage = 0;
+
+
+    if (total > 0) {
+
+        percentage =
+            Math.round(
+                (
+                    completed /
+                    total
+                ) * 100
+            );
+
+    }
+
+
+    studyProgress.style.width =
+        percentage + "%";
+
+
+    studyPercentage.textContent =
+        percentage + "%";
+
+
+    updateDashboard();
+
+}
+
+
+addStudyBtn.addEventListener(
+    "click",
+    addStudy
+);
+
+
+subjectInput.addEventListener(
+    "keypress",
+    function(event) {
+
+        if (
+            event.key ===
+            "Enter"
+        ) {
+
+            addStudy();
+
+        }
+
+    }
+);
+
+
+
+/* =====================================================
+   EXAM COUNTDOWN
+   ===================================================== */
 
 const examCountdown =
     document.getElementById(
         "examCountdown"
+    );
+
+const dashboardExamCountdown =
+    document.getElementById(
+        "dashboardExamCountdown"
     );
 
 
@@ -181,7 +652,6 @@ const examDate =
     new Date(
         "September 8, 2026 09:00:00"
     ).getTime();
-
 
 
 function updateCountdown() {
@@ -196,8 +666,23 @@ function updateCountdown() {
 
     if (difference <= 0) {
 
-        examCountdown.textContent =
-            "Exam Started";
+        if (examCountdown) {
+
+            examCountdown.textContent =
+                "Exam Started";
+
+        }
+
+
+        if (
+            dashboardExamCountdown
+        ) {
+
+            dashboardExamCountdown.textContent =
+                "Exam Started";
+
+        }
+
 
         return;
 
@@ -207,7 +692,12 @@ function updateCountdown() {
     const days =
         Math.floor(
             difference /
-            (1000 * 60 * 60 * 24)
+            (
+                1000 *
+                60 *
+                60 *
+                24
+            )
         );
 
 
@@ -215,7 +705,11 @@ function updateCountdown() {
         Math.floor(
             (
                 difference /
-                (1000 * 60 * 60)
+                (
+                    1000 *
+                    60 *
+                    60
+                )
             ) % 24
         );
 
@@ -224,7 +718,10 @@ function updateCountdown() {
         Math.floor(
             (
                 difference /
-                (1000 * 60)
+                (
+                    1000 *
+                    60
+                )
             ) % 60
         );
 
@@ -238,14 +735,31 @@ function updateCountdown() {
         );
 
 
-    examCountdown.textContent =
+    const text =
         `${days} Days ${hours} Hours ${minutes} Minutes ${seconds} Seconds`;
+
+
+    if (examCountdown) {
+
+        examCountdown.textContent =
+            text;
+
+    }
+
+
+    if (
+        dashboardExamCountdown
+    ) {
+
+        dashboardExamCountdown.textContent =
+            text;
+
+    }
 
 }
 
 
 updateCountdown();
-
 
 setInterval(
     updateCountdown,
@@ -254,638 +768,34 @@ setInterval(
 
 
 
+/* =====================================================
+   ASSIGNMENT TRACKER
+   ===================================================== */
 
-
-// ======================================================
-// STUDY PLANNER
-// ======================================================
-
-const subjectInput =
+const assignmentName =
     document.getElementById(
-        "subjectInput"
+        "assignmentName"
     );
 
-
-const priorityInput =
+const assignmentSubject =
     document.getElementById(
-        "priorityInput"
+        "assignmentSubject"
     );
 
-
-const addStudyBtn =
+const assignmentDeadline =
     document.getElementById(
-        "addStudyBtn"
+        "assignmentDeadline"
     );
 
-
-const studyList =
+const assignmentPriority =
     document.getElementById(
-        "studyList"
+        "assignmentPriority"
     );
-
-
-const studyProgress =
-    document.getElementById(
-        "studyProgress"
-    );
-
-
-const studyPercentage =
-    document.getElementById(
-        "studyPercentage"
-    );
-
-
-let studySessions =
-    JSON.parse(
-        localStorage.getItem(
-            "studySessions"
-        )
-    ) || [];
-
-
-
-function saveStudySessions() {
-
-    localStorage.setItem(
-        "studySessions",
-        JSON.stringify(
-            studySessions
-        )
-    );
-
-}
-
-
-
-function addStudySession() {
-
-    const subject =
-        subjectInput.value.trim();
-
-
-    const priority =
-        priorityInput.value;
-
-
-    if (subject === "") {
-
-        alert(
-            "Please enter a subject."
-        );
-
-        return;
-
-    }
-
-
-    studySessions.push({
-
-        subject: subject,
-
-        priority: priority,
-
-        completed: false
-
-    });
-
-
-    saveStudySessions();
-
-    displayStudySessions();
-
-
-    subjectInput.value = "";
-
-}
-
-
-
-function displayStudySessions() {
-
-    studyList.innerHTML = "";
-
-
-    studySessions.forEach(
-        function(session, index) {
-
-            const li =
-                document.createElement("li");
-
-
-            if (session.completed) {
-
-                li.classList.add(
-                    "completed"
-                );
-
-            }
-
-
-            li.innerHTML = `
-
-                <span>
-
-                    ${session.subject}
-
-                    -
-
-                    ${session.priority}
-
-                </span>
-
-
-                <button
-                    onclick="completeStudy(${index})"
-                >
-
-                    ${
-                        session.completed
-                        ? "Undo"
-                        : "Complete"
-                    }
-
-                </button>
-
-
-                <button
-                    onclick="deleteStudy(${index})"
-                >
-
-                    Delete
-
-                </button>
-
-            `;
-
-
-            studyList.appendChild(li);
-
-        }
-    );
-
-
-    updateStudyProgress();
-
-}
-
-
-
-function completeStudy(index) {
-
-    studySessions[index].completed =
-        !studySessions[index].completed;
-
-
-    saveStudySessions();
-
-    displayStudySessions();
-
-}
-
-
-
-function deleteStudy(index) {
-
-    studySessions.splice(
-        index,
-        1
-    );
-
-
-    saveStudySessions();
-
-    displayStudySessions();
-
-}
-
-
-
-function updateStudyProgress() {
-
-    const total =
-        studySessions.length;
-
-
-    if (total === 0) {
-
-        studyProgress.style.width =
-            "0%";
-
-        studyPercentage.textContent =
-            "0%";
-
-        return;
-
-    }
-
-
-    const completed =
-        studySessions.filter(
-            function(session) {
-
-                return session.completed;
-
-            }
-        ).length;
-
-
-    const percentage =
-        Math.round(
-            (
-                completed /
-                total
-            ) * 100
-        );
-
-
-    studyProgress.style.width =
-        percentage + "%";
-
-
-    studyPercentage.textContent =
-        percentage + "%";
-
-}
-
-
-
-addStudyBtn.addEventListener(
-    "click",
-    addStudySession
-);
-
-
-displayStudySessions();
-
-
-
-
-
-// ======================================================
-// PROJECT MANAGER
-// ======================================================
-
-const projectNameInput =
-    document.getElementById(
-        "projectNameInput"
-    );
-
-
-const technologyInput =
-    document.getElementById(
-        "technologyInput"
-    );
-
-
-const githubInput =
-    document.getElementById(
-        "githubInput"
-    );
-
-
-const progressInput =
-    document.getElementById(
-        "progressInput"
-    );
-
-
-const deadlineInput =
-    document.getElementById(
-        "deadlineInput"
-    );
-
-
-const statusInput =
-    document.getElementById(
-        "statusInput"
-    );
-
-
-const addProjectBtn =
-    document.getElementById(
-        "addProjectBtn"
-    );
-
-
-const projectList =
-    document.getElementById(
-        "projectList"
-    );
-
-
-let projects =
-    JSON.parse(
-        localStorage.getItem(
-            "projects"
-        )
-    ) || [];
-
-
-
-function saveProjects() {
-
-    localStorage.setItem(
-        "projects",
-        JSON.stringify(
-            projects
-        )
-    );
-
-}
-
-
-
-function addProject() {
-
-    const name =
-        projectNameInput.value.trim();
-
-
-    const technology =
-        technologyInput.value.trim();
-
-
-    const github =
-        githubInput.value.trim();
-
-
-    const progress =
-        Number(
-            progressInput.value
-        );
-
-
-    const deadline =
-        deadlineInput.value;
-
-
-    const status =
-        statusInput.value;
-
-
-    if (
-        name === "" ||
-        technology === "" ||
-        deadline === ""
-    ) {
-
-        alert(
-            "Please fill Project Name, Technology and Deadline."
-        );
-
-        return;
-
-    }
-
-
-    if (
-        isNaN(progress) ||
-        progress < 0 ||
-        progress > 100
-    ) {
-
-        alert(
-            "Progress must be between 0 and 100."
-        );
-
-        return;
-
-    }
-
-
-    projects.push({
-
-        name: name,
-
-        technology: technology,
-
-        github: github,
-
-        progress: progress,
-
-        deadline: deadline,
-
-        status: status
-
-    });
-
-
-    saveProjects();
-
-    displayProjects();
-
-
-    projectNameInput.value = "";
-
-    technologyInput.value = "";
-
-    githubInput.value = "";
-
-    progressInput.value = "";
-
-    deadlineInput.value = "";
-
-    statusInput.value =
-        "Planning";
-
-
-    updateOverview();
-
-}
-
-
-
-function displayProjects() {
-
-    projectList.innerHTML = "";
-
-
-    projects.forEach(
-        function(project, index) {
-
-            const card =
-                document.createElement(
-                    "div"
-                );
-
-
-            card.classList.add(
-                "project-card"
-            );
-
-
-            card.innerHTML = `
-
-                <h3>
-                    ${project.name}
-                </h3>
-
-                <p>
-                    <strong>
-                        Technology:
-                    </strong>
-
-                    ${project.technology}
-                </p>
-
-                <p>
-                    <strong>
-                        Status:
-                    </strong>
-
-                    ${project.status}
-                </p>
-
-                <p>
-                    <strong>
-                        Deadline:
-                    </strong>
-
-                    ${project.deadline}
-                </p>
-
-                <p>
-                    <strong>
-                        Progress:
-                    </strong>
-
-                    ${project.progress}%
-                </p>
-
-
-                <div
-                    class="project-progress-bar"
-                >
-
-                    <div
-                        class="project-progress"
-                        style="width: ${project.progress}%"
-                    ></div>
-
-                </div>
-
-
-                ${
-                    project.github
-                    ?
-                    `
-
-                    <button
-                        onclick="openGithub('${project.github}')"
-                    >
-                        GitHub
-                    </button>
-
-                    `
-                    :
-                    ""
-                }
-
-
-                <button
-                    onclick="deleteProject(${index})"
-                >
-                    Delete
-                </button>
-
-            `;
-
-
-            projectList.appendChild(
-                card
-            );
-
-        }
-    );
-
-
-    updateOverview();
-
-}
-
-
-
-function openGithub(url) {
-
-    window.open(
-        url,
-        "_blank"
-    );
-
-}
-
-
-
-function deleteProject(index) {
-
-    projects.splice(
-        index,
-        1
-    );
-
-
-    saveProjects();
-
-    displayProjects();
-
-    updateOverview();
-
-}
-
-
-
-addProjectBtn.addEventListener(
-    "click",
-    addProject
-);
-
-
-displayProjects();
-
-
-
-
-
-// ======================================================
-// ASSIGNMENT TRACKER
-// ======================================================
-
-const assignmentNameInput =
-    document.getElementById(
-        "assignmentNameInput"
-    );
-
-
-const assignmentSubjectInput =
-    document.getElementById(
-        "assignmentSubjectInput"
-    );
-
-
-const assignmentDeadlineInput =
-    document.getElementById(
-        "assignmentDeadlineInput"
-    );
-
-
-const assignmentPriorityInput =
-    document.getElementById(
-        "assignmentPriorityInput"
-    );
-
-
-const assignmentStatusInput =
-    document.getElementById(
-        "assignmentStatusInput"
-    );
-
 
 const addAssignmentBtn =
     document.getElementById(
         "addAssignmentBtn"
     );
-
 
 const assignmentList =
     document.getElementById(
@@ -896,16 +806,15 @@ const assignmentList =
 let assignments =
     JSON.parse(
         localStorage.getItem(
-            "assignments"
+            "campusAssignments"
         )
     ) || [];
-
 
 
 function saveAssignments() {
 
     localStorage.setItem(
-        "assignments",
+        "campusAssignments",
         JSON.stringify(
             assignments
         )
@@ -914,27 +823,16 @@ function saveAssignments() {
 }
 
 
-
 function addAssignment() {
 
     const name =
-        assignmentNameInput.value.trim();
-
+        assignmentName.value.trim();
 
     const subject =
-        assignmentSubjectInput.value.trim();
-
+        assignmentSubject.value.trim();
 
     const deadline =
-        assignmentDeadlineInput.value;
-
-
-    const priority =
-        assignmentPriorityInput.value;
-
-
-    const status =
-        assignmentStatusInput.value;
+        assignmentDeadline.value;
 
 
     if (
@@ -944,7 +842,7 @@ function addAssignment() {
     ) {
 
         alert(
-            "Please fill Assignment, Subject and Deadline."
+            "Please fill all fields."
         );
 
         return;
@@ -960,35 +858,29 @@ function addAssignment() {
 
         deadline: deadline,
 
-        priority: priority,
+        priority:
+            assignmentPriority.value,
 
-        status: status
+        status: "Pending"
 
     });
 
 
     saveAssignments();
 
-    displayAssignments();
+    renderAssignments();
 
 
-    assignmentNameInput.value = "";
+    assignmentName.value = "";
 
-    assignmentSubjectInput.value = "";
+    assignmentSubject.value = "";
 
-    assignmentDeadlineInput.value = "";
-
-    assignmentPriorityInput.value =
-        "High";
-
-    assignmentStatusInput.value =
-        "Pending";
+    assignmentDeadline.value = "";
 
 }
 
 
-
-function displayAssignments() {
+function renderAssignments() {
 
     assignmentList.innerHTML = "";
 
@@ -1002,9 +894,8 @@ function displayAssignments() {
                 );
 
 
-            card.classList.add(
-                "assignment-card"
-            );
+            card.className =
+                "assignment-card";
 
 
             card.innerHTML = `
@@ -1014,54 +905,81 @@ function displayAssignments() {
                 </h3>
 
                 <p>
-                    <strong>
-                        Subject:
-                    </strong>
-
+                    Subject:
                     ${assignment.subject}
                 </p>
 
                 <p>
-                    <strong>
-                        Deadline:
-                    </strong>
-
+                    Deadline:
                     ${assignment.deadline}
                 </p>
 
                 <p>
-                    <strong>
-                        Priority:
-                    </strong>
-
+                    Priority:
                     ${assignment.priority}
                 </p>
 
-
-                <span
-                    class="assignment-status"
-                >
-                    ${assignment.status}
-                </span>
-
-
-                <br>
-
-
-                <button
-                    onclick="changeAssignmentStatus(${index})"
-                >
-                    Change Status
-                </button>
-
-
-                <button
-                    onclick="deleteAssignment(${index})"
-                >
-                    Delete
-                </button>
+                <p>
+                    Status:
+                    <strong>
+                        ${assignment.status}
+                    </strong>
+                </p>
 
             `;
+
+
+            const statusBtn =
+                document.createElement(
+                    "button"
+                );
+
+
+            statusBtn.textContent =
+                "Change Status";
+
+
+            statusBtn.addEventListener(
+                "click",
+                function() {
+
+                    changeAssignmentStatus(
+                        index
+                    );
+
+                }
+            );
+
+
+            const deleteBtn =
+                document.createElement(
+                    "button"
+                );
+
+
+            deleteBtn.textContent =
+                "Delete";
+
+
+            deleteBtn.addEventListener(
+                "click",
+                function() {
+
+                    deleteAssignment(
+                        index
+                    );
+
+                }
+            );
+
+
+            card.appendChild(
+                statusBtn
+            );
+
+            card.appendChild(
+                deleteBtn
+            );
 
 
             assignmentList.appendChild(
@@ -1072,10 +990,9 @@ function displayAssignments() {
     );
 
 
-    updateAssignmentProgress();
+    updateAssignmentStats();
 
 }
-
 
 
 function changeAssignmentStatus(index) {
@@ -1112,10 +1029,9 @@ function changeAssignmentStatus(index) {
 
     saveAssignments();
 
-    displayAssignments();
+    renderAssignments();
 
 }
-
 
 
 function deleteAssignment(index) {
@@ -1128,13 +1044,12 @@ function deleteAssignment(index) {
 
     saveAssignments();
 
-    displayAssignments();
+    renderAssignments();
 
 }
 
 
-
-function updateAssignmentProgress() {
+function updateAssignmentStats() {
 
     const total =
         assignments.length;
@@ -1142,12 +1057,10 @@ function updateAssignmentProgress() {
 
     const pending =
         assignments.filter(
-            function(assignment) {
+            function(item) {
 
-                return (
-                    assignment.status ===
-                    "Pending"
-                );
+                return item.status ===
+                    "Pending";
 
             }
         ).length;
@@ -1155,12 +1068,10 @@ function updateAssignmentProgress() {
 
     const inProgress =
         assignments.filter(
-            function(assignment) {
+            function(item) {
 
-                return (
-                    assignment.status ===
-                    "In Progress"
-                );
+                return item.status ===
+                    "In Progress";
 
             }
         ).length;
@@ -1168,12 +1079,10 @@ function updateAssignmentProgress() {
 
     const completed =
         assignments.filter(
-            function(assignment) {
+            function(item) {
 
-                return (
-                    assignment.status ===
-                    "Completed"
-                );
+                return item.status ===
+                    "Completed";
 
             }
         ).length;
@@ -1192,7 +1101,7 @@ function updateAssignmentProgress() {
 
 
     document.getElementById(
-        "inProgressAssignments"
+        "progressAssignments"
     ).textContent =
         inProgress;
 
@@ -1226,15 +1135,48 @@ function updateAssignmentProgress() {
 
 
     document.getElementById(
-        "assignmentProgress"
+        "assignmentProgressBar"
     ).style.width =
         percentage + "%";
 
 
-    updateOverview();
+    const chartTotal =
+        Math.max(
+            total,
+            1
+        );
+
+
+    document.getElementById(
+        "pendingBar"
+    ).style.height =
+        (
+            pending /
+            chartTotal
+        ) * 100 + "%";
+
+
+    document.getElementById(
+        "progressBar"
+    ).style.height =
+        (
+            inProgress /
+            chartTotal
+        ) * 100 + "%";
+
+
+    document.getElementById(
+        "completedBar"
+    ).style.height =
+        (
+            completed /
+            chartTotal
+        ) * 100 + "%";
+
+
+    updateDashboard();
 
 }
-
 
 
 addAssignmentBtn.addEventListener(
@@ -1243,33 +1185,312 @@ addAssignmentBtn.addEventListener(
 );
 
 
-displayAssignments();
 
+/* =====================================================
+   PROJECT MANAGER
+   ===================================================== */
 
-
-
-
-// ======================================================
-// CODING TRACKER
-// ======================================================
-
-const problemsSolved =
+const projectName =
     document.getElementById(
-        "problemsSolved"
+        "projectName"
     );
 
+const projectTechnology =
+    document.getElementById(
+        "projectTechnology"
+    );
+
+const projectGithub =
+    document.getElementById(
+        "projectGithub"
+    );
+
+const projectProgress =
+    document.getElementById(
+        "projectProgress"
+    );
+
+const projectDeadline =
+    document.getElementById(
+        "projectDeadline"
+    );
+
+const projectStatus =
+    document.getElementById(
+        "projectStatus"
+    );
+
+const addProjectBtn =
+    document.getElementById(
+        "addProjectBtn"
+    );
+
+const projectList =
+    document.getElementById(
+        "projectList"
+    );
+
+
+let projects =
+    JSON.parse(
+        localStorage.getItem(
+            "campusProjects"
+        )
+    ) || [];
+
+
+function saveProjects() {
+
+    localStorage.setItem(
+        "campusProjects",
+        JSON.stringify(
+            projects
+        )
+    );
+
+}
+
+
+function addProject() {
+
+    const name =
+        projectName.value.trim();
+
+    const technology =
+        projectTechnology.value.trim();
+
+    const github =
+        projectGithub.value.trim();
+
+    const progress =
+        Number(
+            projectProgress.value
+        );
+
+    const deadline =
+        projectDeadline.value;
+
+    const status =
+        projectStatus.value;
+
+
+    if (
+        name === "" ||
+        technology === "" ||
+        deadline === ""
+    ) {
+
+        alert(
+            "Please fill the required fields."
+        );
+
+        return;
+
+    }
+
+
+    projects.push({
+
+        name: name,
+
+        technology: technology,
+
+        github: github,
+
+        progress:
+            isNaN(progress)
+            ? 0
+            : Math.min(
+                Math.max(
+                    progress,
+                    0
+                ),
+                100
+            ),
+
+        deadline: deadline,
+
+        status: status
+
+    });
+
+
+    saveProjects();
+
+    renderProjects();
+
+
+    projectName.value = "";
+
+    projectTechnology.value = "";
+
+    projectGithub.value = "";
+
+    projectProgress.value = "";
+
+    projectDeadline.value = "";
+
+}
+
+
+function renderProjects() {
+
+    projectList.innerHTML = "";
+
+
+    projects.forEach(
+        function(project, index) {
+
+            const card =
+                document.createElement(
+                    "div"
+                );
+
+
+            card.className =
+                "project-card";
+
+
+            card.innerHTML = `
+
+                <h3>
+                    ${project.name}
+                </h3>
+
+                <p>
+                    Technology:
+                    ${project.technology}
+                </p>
+
+                <p>
+                    Deadline:
+                    ${project.deadline}
+                </p>
+
+                <p>
+                    Status:
+                    ${project.status}
+                </p>
+
+                <p>
+                    Progress:
+                    ${project.progress}%
+                </p>
+
+                <div class="project-progress-bar">
+
+                    <div
+                        class="project-progress"
+                        style="width:${project.progress}%">
+                    </div>
+
+                </div>
+
+            `;
+
+
+            if (project.github) {
+
+                const githubBtn =
+                    document.createElement(
+                        "button"
+                    );
+
+
+                githubBtn.textContent =
+                    "GitHub";
+
+
+                githubBtn.addEventListener(
+                    "click",
+                    function() {
+
+                        window.open(
+                            project.github,
+                            "_blank"
+                        );
+
+                    }
+                );
+
+
+                card.appendChild(
+                    githubBtn
+                );
+
+            }
+
+
+            const deleteBtn =
+                document.createElement(
+                    "button"
+                );
+
+
+            deleteBtn.textContent =
+                "Delete";
+
+
+            deleteBtn.addEventListener(
+                "click",
+                function() {
+
+                    projects.splice(
+                        index,
+                        1
+                    );
+
+                    saveProjects();
+
+                    renderProjects();
+
+                }
+            );
+
+
+            card.appendChild(
+                deleteBtn
+            );
+
+
+            projectList.appendChild(
+                card
+            );
+
+        }
+    );
+
+
+    updateDashboard();
+
+}
+
+
+addProjectBtn.addEventListener(
+    "click",
+    addProject
+);
+
+
+
+/* =====================================================
+   CODING TRACKER
+   ===================================================== */
+
+const codingProblems =
+    document.getElementById(
+        "codingProblems"
+    );
 
 const codingHours =
     document.getElementById(
         "codingHours"
     );
 
-
 const codingProjects =
     document.getElementById(
         "codingProjects"
     );
-
 
 const codingStreak =
     document.getElementById(
@@ -1282,18 +1503,15 @@ const problemsInput =
         "problemsInput"
     );
 
-
 const hoursInput =
     document.getElementById(
         "hoursInput"
     );
 
-
-const projectsInput =
+const codingProjectsInput =
     document.getElementById(
-        "projectsInput"
+        "codingProjectsInput"
     );
-
 
 const updateCodingBtn =
     document.getElementById(
@@ -1301,11 +1519,10 @@ const updateCodingBtn =
     );
 
 
-
 let codingData =
     JSON.parse(
         localStorage.getItem(
-            "codingData"
+            "campusCoding"
         )
     ) || {
 
@@ -1320,11 +1537,10 @@ let codingData =
     };
 
 
-
-function saveCodingData() {
+function saveCoding() {
 
     localStorage.setItem(
-        "codingData",
+        "campusCoding",
         JSON.stringify(
             codingData
         )
@@ -1333,10 +1549,9 @@ function saveCodingData() {
 }
 
 
+function renderCoding() {
 
-function displayCodingData() {
-
-    problemsSolved.textContent =
+    codingProblems.textContent =
         codingData.problems;
 
 
@@ -1353,99 +1568,98 @@ function displayCodingData() {
         " Days";
 
 
-    updateOverview();
+    updateDashboard();
 
 }
 
 
+function updateCoding() {
 
-function updateCodingStats() {
-
-    const problems =
-        Number(
-            problemsInput.value
+    codingData.problems =
+        Math.max(
+            0,
+            Number(
+                problemsInput.value
+            ) || 0
         );
 
 
-    const hours =
-        Number(
-            hoursInput.value
+    codingData.hours =
+        Math.max(
+            0,
+            Number(
+                hoursInput.value
+            ) || 0
         );
 
 
-    const projectsCompleted =
-        Number(
-            projectsInput.value
+    codingData.projects =
+        Math.max(
+            0,
+            Number(
+                codingProjectsInput.value
+            ) || 0
         );
 
 
     if (
-        problems < 0 ||
-        hours < 0 ||
-        projectsCompleted < 0
+        codingData.problems > 0
     ) {
 
-        alert(
-            "Values cannot be negative."
-        );
-
-        return;
+        codingData.streak++;
 
     }
 
 
-    codingData.problems =
-        problems;
+    saveCoding();
 
-
-    codingData.hours =
-        hours;
-
-
-    codingData.projects =
-        projectsCompleted;
-
-
-    codingData.streak =
-        problems > 0
-        ? codingData.streak + 1
-        : codingData.streak;
-
-
-    saveCodingData();
-
-    displayCodingData();
+    renderCoding();
 
 
     problemsInput.value = "";
 
     hoursInput.value = "";
 
-    projectsInput.value = "";
+    codingProjectsInput.value = "";
 
 }
 
 
-
 updateCodingBtn.addEventListener(
     "click",
-    updateCodingStats
+    updateCoding
 );
 
 
-displayCodingData();
+
+/* =====================================================
+   DASHBOARD
+   ===================================================== */
+
+function updateDashboard() {
+
+    const dashboardTasks =
+        document.getElementById(
+            "dashboardTasks"
+        );
+
+    const dashboardProjects =
+        document.getElementById(
+            "dashboardProjects"
+        );
+
+    const dashboardAssignments =
+        document.getElementById(
+            "dashboardAssignments"
+        );
+
+    const dashboardStreak =
+        document.getElementById(
+            "dashboardStreak"
+        );
 
 
-
-
-
-// ======================================================
-// DASHBOARD OVERVIEW
-// ======================================================
-
-function updateOverview() {
-
-    const taskCount =
+    const incompleteTasks =
         tasks.filter(
             function(task) {
 
@@ -1455,68 +1669,153 @@ function updateOverview() {
         ).length;
 
 
-    const projectCount =
-        projects.length;
-
-
-    const totalAssignments =
-        assignments.length;
-
-
-    const completedAssignments =
+    const incompleteAssignments =
         assignments.filter(
-            function(assignment) {
+            function(item) {
 
-                return (
-                    assignment.status ===
-                    "Completed"
-                );
+                return item.status !==
+                    "Completed";
 
             }
         ).length;
 
 
-    let assignmentProgress = 0;
+    if (dashboardTasks) {
+
+        dashboardTasks.textContent =
+            incompleteTasks;
+
+    }
 
 
-    if (totalAssignments > 0) {
+    if (dashboardProjects) {
 
-        assignmentProgress =
+        dashboardProjects.textContent =
+            projects.length;
+
+    }
+
+
+    if (dashboardAssignments) {
+
+        dashboardAssignments.textContent =
+            incompleteAssignments;
+
+    }
+
+
+    if (dashboardStreak) {
+
+        dashboardStreak.textContent =
+            codingData.streak +
+            " Days";
+
+    }
+
+
+    /* OVERALL PROGRESS */
+
+    const studyTotal =
+        studySessions.length;
+
+
+    const studyCompleted =
+        studySessions.filter(
+            function(session) {
+
+                return session.completed;
+
+            }
+        ).length;
+
+
+    const assignmentTotal =
+        assignments.length;
+
+
+    const assignmentCompleted =
+        assignments.filter(
+            function(item) {
+
+                return item.status ===
+                    "Completed";
+
+            }
+        ).length;
+
+
+    const total =
+        studyTotal +
+        assignmentTotal;
+
+
+    const completed =
+        studyCompleted +
+        assignmentCompleted;
+
+
+    let percentage = 0;
+
+
+    if (total > 0) {
+
+        percentage =
             Math.round(
                 (
-                    completedAssignments /
-                    totalAssignments
+                    completed /
+                    total
                 ) * 100
             );
 
     }
 
 
-    document.getElementById(
-        "overviewTasks"
-    ).textContent =
-        taskCount;
+    const dashboardProgress =
+        document.getElementById(
+            "dashboardProgress"
+        );
 
 
-    document.getElementById(
-        "overviewProjects"
-    ).textContent =
-        projectCount;
+    const dashboardProgressBar =
+        document.getElementById(
+            "dashboardProgressBar"
+        );
 
 
-    document.getElementById(
-        "overviewStreak"
-    ).textContent =
-        codingData.streak +
-        " Days";
+    if (dashboardProgress) {
+
+        dashboardProgress.textContent =
+            percentage + "%";
+
+    }
 
 
-    document.getElementById(
-        "overviewProgress"
-    ).textContent =
-        assignmentProgress + "%";
+    if (dashboardProgressBar) {
+
+        dashboardProgressBar.style.width =
+            percentage + "%";
+
+    }
 
 }
 
 
-updateOverview();
+
+/* =====================================================
+   INITIALIZE
+   ===================================================== */
+
+showPage("dashboard");
+
+renderTasks();
+
+renderStudy();
+
+renderAssignments();
+
+renderProjects();
+
+renderCoding();
+
+updateDashboard();
+```
