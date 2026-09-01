@@ -1,8 +1,56 @@
-```javascript
 /* =====================================================
    CAMPUS COMMAND CENTER
    COMPLETE JAVASCRIPT
    ===================================================== */
+
+
+/* =====================================================
+   SAFE LOCAL STORAGE
+   ===================================================== */
+
+function getStorage(key, fallback) {
+
+    try {
+
+        const data = localStorage.getItem(key);
+
+        if (!data) {
+            return fallback;
+        }
+
+        return JSON.parse(data);
+
+    } catch (error) {
+
+        console.error(
+            "LocalStorage error:",
+            error
+        );
+
+        return fallback;
+    }
+}
+
+
+function setStorage(key, value) {
+
+    try {
+
+        localStorage.setItem(
+            key,
+            JSON.stringify(value)
+        );
+
+    } catch (error) {
+
+        console.error(
+            "Unable to save data:",
+            error
+        );
+
+    }
+
+}
 
 
 /* =====================================================
@@ -111,7 +159,11 @@ function showPage(pageName) {
     });
 
 
-    if (pageInfo[pageName]) {
+    if (
+        pageInfo[pageName] &&
+        pageTitle &&
+        pageSubtitle
+    ) {
 
         pageTitle.textContent =
             pageInfo[pageName][0];
@@ -140,7 +192,6 @@ navItems.forEach(function(item) {
 });
 
 
-
 /* =====================================================
    TASK TRACKER
    ===================================================== */
@@ -162,18 +213,17 @@ const taskList =
 
 
 let tasks =
-    JSON.parse(
-        localStorage.getItem(
-            "campusTasks"
-        )
-    ) || [];
+    getStorage(
+        "campusTasks",
+        []
+    );
 
 
 function saveTasks() {
 
-    localStorage.setItem(
+    setStorage(
         "campusTasks",
-        JSON.stringify(tasks)
+        tasks
     );
 
 }
@@ -187,6 +237,20 @@ function renderTasks() {
 
 
     taskList.innerHTML = "";
+
+
+    if (tasks.length === 0) {
+
+        taskList.innerHTML = `
+            <li class="empty-state">
+                No tasks added yet.
+            </li>
+        `;
+
+        updateDashboard();
+
+        return;
+    }
 
 
     tasks.forEach(
@@ -283,14 +347,17 @@ function renderTasks() {
 
 function addTask() {
 
+    if (!taskInput) {
+        return;
+    }
+
+
     const text =
         taskInput.value.trim();
 
 
     if (text === "") {
-
         return;
-
     }
 
 
@@ -315,6 +382,13 @@ function addTask() {
 
 function toggleTask(index) {
 
+    if (
+        !tasks[index]
+    ) {
+        return;
+    }
+
+
     tasks[index].completed =
         !tasks[index].completed;
 
@@ -327,6 +401,14 @@ function toggleTask(index) {
 
 
 function deleteTask(index) {
+
+    if (
+        index < 0 ||
+        index >= tasks.length
+    ) {
+        return;
+    }
+
 
     tasks.splice(
         index,
@@ -341,28 +423,35 @@ function deleteTask(index) {
 }
 
 
-addTaskBtn.addEventListener(
-    "click",
-    addTask
-);
+if (addTaskBtn) {
+
+    addTaskBtn.addEventListener(
+        "click",
+        addTask
+    );
+
+}
 
 
-taskInput.addEventListener(
-    "keypress",
-    function(event) {
+if (taskInput) {
 
-        if (
-            event.key ===
-            "Enter"
-        ) {
+    taskInput.addEventListener(
+        "keypress",
+        function(event) {
 
-            addTask();
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                addTask();
+
+            }
 
         }
+    );
 
-    }
-);
-
+}
 
 
 /* =====================================================
@@ -401,20 +490,17 @@ const studyPercentage =
 
 
 let studySessions =
-    JSON.parse(
-        localStorage.getItem(
-            "campusStudy"
-        )
-    ) || [];
+    getStorage(
+        "campusStudy",
+        []
+    );
 
 
 function saveStudy() {
 
-    localStorage.setItem(
+    setStorage(
         "campusStudy",
-        JSON.stringify(
-            studySessions
-        )
+        studySessions
     );
 
 }
@@ -422,7 +508,26 @@ function saveStudy() {
 
 function renderStudy() {
 
+    if (!studyList) {
+        return;
+    }
+
+
     studyList.innerHTML = "";
+
+
+    if (studySessions.length === 0) {
+
+        studyList.innerHTML = `
+            <li class="empty-state">
+                No study sessions added yet.
+            </li>
+        `;
+
+        updateStudyProgress();
+
+        return;
+    }
 
 
     studySessions.forEach(
@@ -531,14 +636,20 @@ function renderStudy() {
 
 function addStudy() {
 
+    if (
+        !subjectInput ||
+        !priorityInput
+    ) {
+        return;
+    }
+
+
     const subject =
         subjectInput.value.trim();
 
 
     if (subject === "") {
-
         return;
-
     }
 
 
@@ -596,12 +707,20 @@ function updateStudyProgress() {
     }
 
 
-    studyProgress.style.width =
-        percentage + "%";
+    if (studyProgress) {
+
+        studyProgress.style.width =
+            percentage + "%";
+
+    }
 
 
-    studyPercentage.textContent =
-        percentage + "%";
+    if (studyPercentage) {
+
+        studyPercentage.textContent =
+            percentage + "%";
+
+    }
 
 
     updateDashboard();
@@ -609,28 +728,35 @@ function updateStudyProgress() {
 }
 
 
-addStudyBtn.addEventListener(
-    "click",
-    addStudy
-);
+if (addStudyBtn) {
+
+    addStudyBtn.addEventListener(
+        "click",
+        addStudy
+    );
+
+}
 
 
-subjectInput.addEventListener(
-    "keypress",
-    function(event) {
+if (subjectInput) {
 
-        if (
-            event.key ===
-            "Enter"
-        ) {
+    subjectInput.addEventListener(
+        "keypress",
+        function(event) {
 
-            addStudy();
+            if (
+                event.key ===
+                "Enter"
+            ) {
+
+                addStudy();
+
+            }
 
         }
+    );
 
-    }
-);
-
+}
 
 
 /* =====================================================
@@ -674,9 +800,7 @@ function updateCountdown() {
         }
 
 
-        if (
-            dashboardExamCountdown
-        ) {
+        if (dashboardExamCountdown) {
 
             dashboardExamCountdown.textContent =
                 "Exam Started";
@@ -685,7 +809,6 @@ function updateCountdown() {
 
 
         return;
-
     }
 
 
@@ -747,9 +870,7 @@ function updateCountdown() {
     }
 
 
-    if (
-        dashboardExamCountdown
-    ) {
+    if (dashboardExamCountdown) {
 
         dashboardExamCountdown.textContent =
             text;
@@ -761,11 +882,11 @@ function updateCountdown() {
 
 updateCountdown();
 
+
 setInterval(
     updateCountdown,
     1000
 );
-
 
 
 /* =====================================================
@@ -804,26 +925,33 @@ const assignmentList =
 
 
 let assignments =
-    JSON.parse(
-        localStorage.getItem(
-            "campusAssignments"
-        )
-    ) || [];
+    getStorage(
+        "campusAssignments",
+        []
+    );
 
 
 function saveAssignments() {
 
-    localStorage.setItem(
+    setStorage(
         "campusAssignments",
-        JSON.stringify(
-            assignments
-        )
+        assignments
     );
 
 }
 
 
 function addAssignment() {
+
+    if (
+        !assignmentName ||
+        !assignmentSubject ||
+        !assignmentDeadline ||
+        !assignmentPriority
+    ) {
+        return;
+    }
+
 
     const name =
         assignmentName.value.trim();
@@ -882,7 +1010,26 @@ function addAssignment() {
 
 function renderAssignments() {
 
+    if (!assignmentList) {
+        return;
+    }
+
+
     assignmentList.innerHTML = "";
+
+
+    if (assignments.length === 0) {
+
+        assignmentList.innerHTML = `
+            <div class="empty-state">
+                No assignments added yet.
+            </div>
+        `;
+
+        updateAssignmentStats();
+
+        return;
+    }
 
 
     assignments.forEach(
@@ -898,35 +1045,53 @@ function renderAssignments() {
                 "assignment-card";
 
 
-            card.innerHTML = `
+            const title =
+                document.createElement(
+                    "h3"
+                );
 
-                <h3>
-                    ${assignment.name}
-                </h3>
+            title.textContent =
+                assignment.name;
 
-                <p>
-                    Subject:
-                    ${assignment.subject}
-                </p>
 
-                <p>
-                    Deadline:
-                    ${assignment.deadline}
-                </p>
+            const subject =
+                document.createElement(
+                    "p"
+                );
 
-                <p>
-                    Priority:
-                    ${assignment.priority}
-                </p>
+            subject.textContent =
+                "Subject: " +
+                assignment.subject;
 
-                <p>
-                    Status:
-                    <strong>
-                        ${assignment.status}
-                    </strong>
-                </p>
 
-            `;
+            const deadline =
+                document.createElement(
+                    "p"
+                );
+
+            deadline.textContent =
+                "Deadline: " +
+                assignment.deadline;
+
+
+            const priority =
+                document.createElement(
+                    "p"
+                );
+
+            priority.textContent =
+                "Priority: " +
+                assignment.priority;
+
+
+            const status =
+                document.createElement(
+                    "p"
+                );
+
+            status.textContent =
+                "Status: " +
+                assignment.status;
 
 
             const statusBtn =
@@ -973,13 +1138,19 @@ function renderAssignments() {
             );
 
 
-            card.appendChild(
-                statusBtn
-            );
+            card.appendChild(title);
 
-            card.appendChild(
-                deleteBtn
-            );
+            card.appendChild(subject);
+
+            card.appendChild(deadline);
+
+            card.appendChild(priority);
+
+            card.appendChild(status);
+
+            card.appendChild(statusBtn);
+
+            card.appendChild(deleteBtn);
 
 
             assignmentList.appendChild(
@@ -996,6 +1167,13 @@ function renderAssignments() {
 
 
 function changeAssignmentStatus(index) {
+
+    if (
+        !assignments[index]
+    ) {
+        return;
+    }
+
 
     const current =
         assignments[index].status;
@@ -1035,6 +1213,14 @@ function changeAssignmentStatus(index) {
 
 
 function deleteAssignment(index) {
+
+    if (
+        index < 0 ||
+        index >= assignments.length
+    ) {
+        return;
+    }
+
 
     assignments.splice(
         index,
@@ -1088,28 +1274,49 @@ function updateAssignmentStats() {
         ).length;
 
 
-    document.getElementById(
-        "totalAssignments"
-    ).textContent =
-        total;
+    const totalElement =
+        document.getElementById(
+            "totalAssignments"
+        );
+
+    const pendingElement =
+        document.getElementById(
+            "pendingAssignments"
+        );
+
+    const progressElement =
+        document.getElementById(
+            "progressAssignments"
+        );
+
+    const completedElement =
+        document.getElementById(
+            "completedAssignments"
+        );
 
 
-    document.getElementById(
-        "pendingAssignments"
-    ).textContent =
-        pending;
+    if (totalElement) {
+        totalElement.textContent =
+            total;
+    }
 
 
-    document.getElementById(
-        "progressAssignments"
-    ).textContent =
-        inProgress;
+    if (pendingElement) {
+        pendingElement.textContent =
+            pending;
+    }
 
 
-    document.getElementById(
-        "completedAssignments"
-    ).textContent =
-        completed;
+    if (progressElement) {
+        progressElement.textContent =
+            inProgress;
+    }
+
+
+    if (completedElement) {
+        completedElement.textContent =
+            completed;
+    }
 
 
     let percentage = 0;
@@ -1128,16 +1335,32 @@ function updateAssignmentStats() {
     }
 
 
-    document.getElementById(
-        "assignmentPercentage"
-    ).textContent =
-        percentage + "%";
+    const percentageElement =
+        document.getElementById(
+            "assignmentPercentage"
+        );
 
 
-    document.getElementById(
-        "assignmentProgressBar"
-    ).style.width =
-        percentage + "%";
+    if (percentageElement) {
+
+        percentageElement.textContent =
+            percentage + "%";
+
+    }
+
+
+    const progressBar =
+        document.getElementById(
+            "assignmentProgressBar"
+        );
+
+
+    if (progressBar) {
+
+        progressBar.style.width =
+            percentage + "%";
+
+    }
 
 
     const chartTotal =
@@ -1147,31 +1370,55 @@ function updateAssignmentStats() {
         );
 
 
-    document.getElementById(
-        "pendingBar"
-    ).style.height =
-        (
-            pending /
-            chartTotal
-        ) * 100 + "%";
+    const pendingBar =
+        document.getElementById(
+            "pendingBar"
+        );
 
 
-    document.getElementById(
-        "progressBar"
-    ).style.height =
-        (
-            inProgress /
-            chartTotal
-        ) * 100 + "%";
+    const progressBarChart =
+        document.getElementById(
+            "progressBar"
+        );
 
 
-    document.getElementById(
-        "completedBar"
-    ).style.height =
-        (
-            completed /
-            chartTotal
-        ) * 100 + "%";
+    const completedBar =
+        document.getElementById(
+            "completedBar"
+        );
+
+
+    if (pendingBar) {
+
+        pendingBar.style.height =
+            (
+                pending /
+                chartTotal
+            ) * 100 + "%";
+
+    }
+
+
+    if (progressBarChart) {
+
+        progressBarChart.style.height =
+            (
+                inProgress /
+                chartTotal
+            ) * 100 + "%";
+
+    }
+
+
+    if (completedBar) {
+
+        completedBar.style.height =
+            (
+                completed /
+                chartTotal
+            ) * 100 + "%";
+
+    }
 
 
     updateDashboard();
@@ -1179,11 +1426,14 @@ function updateAssignmentStats() {
 }
 
 
-addAssignmentBtn.addEventListener(
-    "click",
-    addAssignment
-);
+if (addAssignmentBtn) {
 
+    addAssignmentBtn.addEventListener(
+        "click",
+        addAssignment
+    );
+
+}
 
 
 /* =====================================================
@@ -1232,20 +1482,17 @@ const projectList =
 
 
 let projects =
-    JSON.parse(
-        localStorage.getItem(
-            "campusProjects"
-        )
-    ) || [];
+    getStorage(
+        "campusProjects",
+        []
+    );
 
 
 function saveProjects() {
 
-    localStorage.setItem(
+    setStorage(
         "campusProjects",
-        JSON.stringify(
-            projects
-        )
+        projects
     );
 
 }
@@ -1253,22 +1500,41 @@ function saveProjects() {
 
 function addProject() {
 
+    if (
+        !projectName ||
+        !projectTechnology ||
+        !projectDeadline ||
+        !projectStatus
+    ) {
+        return;
+    }
+
+
     const name =
         projectName.value.trim();
+
 
     const technology =
         projectTechnology.value.trim();
 
+
     const github =
-        projectGithub.value.trim();
+        projectGithub
+        ? projectGithub.value.trim()
+        : "";
+
 
     const progress =
-        Number(
+        projectProgress
+        ? Number(
             projectProgress.value
-        );
+        )
+        : 0;
+
 
     const deadline =
         projectDeadline.value;
+
 
     const status =
         projectStatus.value;
@@ -1289,6 +1555,18 @@ function addProject() {
     }
 
 
+    const safeProgress =
+        isNaN(progress)
+        ? 0
+        : Math.min(
+            Math.max(
+                progress,
+                0
+            ),
+            100
+        );
+
+
     projects.push({
 
         name: name,
@@ -1298,15 +1576,7 @@ function addProject() {
         github: github,
 
         progress:
-            isNaN(progress)
-            ? 0
-            : Math.min(
-                Math.max(
-                    progress,
-                    0
-                ),
-                100
-            ),
+            safeProgress,
 
         deadline: deadline,
 
@@ -1324,9 +1594,13 @@ function addProject() {
 
     projectTechnology.value = "";
 
-    projectGithub.value = "";
+    if (projectGithub) {
+        projectGithub.value = "";
+    }
 
-    projectProgress.value = "";
+    if (projectProgress) {
+        projectProgress.value = "";
+    }
 
     projectDeadline.value = "";
 
@@ -1335,7 +1609,26 @@ function addProject() {
 
 function renderProjects() {
 
+    if (!projectList) {
+        return;
+    }
+
+
     projectList.innerHTML = "";
+
+
+    if (projects.length === 0) {
+
+        projectList.innerHTML = `
+            <div class="empty-state">
+                No projects added yet.
+            </div>
+        `;
+
+        updateDashboard();
+
+        return;
+    }
 
 
     projects.forEach(
@@ -1351,42 +1644,104 @@ function renderProjects() {
                 "project-card";
 
 
-            card.innerHTML = `
+            const title =
+                document.createElement(
+                    "h3"
+                );
 
-                <h3>
-                    ${project.name}
-                </h3>
+            title.textContent =
+                project.name;
 
-                <p>
-                    Technology:
-                    ${project.technology}
-                </p>
 
-                <p>
-                    Deadline:
-                    ${project.deadline}
-                </p>
+            const technology =
+                document.createElement(
+                    "p"
+                );
 
-                <p>
-                    Status:
-                    ${project.status}
-                </p>
+            technology.textContent =
+                "Technology: " +
+                project.technology;
 
-                <p>
-                    Progress:
-                    ${project.progress}%
-                </p>
 
-                <div class="project-progress-bar">
+            const deadline =
+                document.createElement(
+                    "p"
+                );
 
-                    <div
-                        class="project-progress"
-                        style="width:${project.progress}%">
-                    </div>
+            deadline.textContent =
+                "Deadline: " +
+                project.deadline;
 
-                </div>
 
-            `;
+            const status =
+                document.createElement(
+                    "p"
+                );
+
+            status.textContent =
+                "Status: " +
+                project.status;
+
+
+            const progressText =
+                document.createElement(
+                    "p"
+                );
+
+            progressText.textContent =
+                "Progress: " +
+                project.progress +
+                "%";
+
+
+            const progressContainer =
+                document.createElement(
+                    "div"
+                );
+
+            progressContainer.className =
+                "project-progress-bar";
+
+
+            const progressBar =
+                document.createElement(
+                    "div"
+                );
+
+            progressBar.className =
+                "project-progress";
+
+
+            progressBar.style.width =
+                project.progress + "%";
+
+
+            progressContainer.appendChild(
+                progressBar
+            );
+
+
+            card.appendChild(title);
+
+            card.appendChild(
+                technology
+            );
+
+            card.appendChild(
+                deadline
+            );
+
+            card.appendChild(
+                status
+            );
+
+            card.appendChild(
+                progressText
+            );
+
+            card.appendChild(
+                progressContainer
+            );
 
 
             if (project.github) {
@@ -1405,9 +1760,27 @@ function renderProjects() {
                     "click",
                     function() {
 
+                        let url =
+                            project.github.trim();
+
+
+                        if (
+                            !/^https?:\/\//i.test(
+                                url
+                            )
+                        ) {
+
+                            url =
+                                "https://" +
+                                url;
+
+                        }
+
+
                         window.open(
-                            project.github,
-                            "_blank"
+                            url,
+                            "_blank",
+                            "noopener,noreferrer"
                         );
 
                     }
@@ -1466,11 +1839,14 @@ function renderProjects() {
 }
 
 
-addProjectBtn.addEventListener(
-    "click",
-    addProject
-);
+if (addProjectBtn) {
 
+    addProjectBtn.addEventListener(
+        "click",
+        addProject
+    );
+
+}
 
 
 /* =====================================================
@@ -1520,52 +1896,82 @@ const updateCodingBtn =
 
 
 let codingData =
-    JSON.parse(
-        localStorage.getItem(
-            "campusCoding"
-        )
-    ) || {
+    getStorage(
+        "campusCoding",
+        {
+            problems: 0,
+            hours: 0,
+            projects: 0,
+            streak: 0,
+            lastUpdate: null
+        }
+    );
 
-        problems: 0,
 
-        hours: 0,
+if (
+    codingData.lastUpdate === undefined
+) {
 
-        projects: 0,
+    codingData.lastUpdate =
+        null;
 
-        streak: 0
-
-    };
+}
 
 
 function saveCoding() {
 
-    localStorage.setItem(
+    setStorage(
         "campusCoding",
-        JSON.stringify(
-            codingData
-        )
+        codingData
     );
+
+}
+
+
+function getTodayString() {
+
+    const today =
+        new Date();
+
+    return today.toISOString()
+        .split("T")[0];
 
 }
 
 
 function renderCoding() {
 
-    codingProblems.textContent =
-        codingData.problems;
+    if (codingProblems) {
+
+        codingProblems.textContent =
+            codingData.problems;
+
+    }
 
 
-    codingHours.textContent =
-        codingData.hours;
+    if (codingHours) {
+
+        codingHours.textContent =
+            codingData.hours;
+
+    }
 
 
-    codingProjects.textContent =
-        codingData.projects;
+    if (codingProjects) {
+
+        codingProjects.textContent =
+            codingData.projects;
+
+    }
 
 
-    codingStreak.textContent =
-        codingData.streak +
-        " Days";
+    if (codingStreak) {
+
+        codingStreak.textContent =
+            codingData.streak +
+            " Days";
+
+    }
 
 
     updateDashboard();
@@ -1574,6 +1980,15 @@ function renderCoding() {
 
 
 function updateCoding() {
+
+    if (
+        !problemsInput ||
+        !hoursInput ||
+        !codingProjectsInput
+    ) {
+        return;
+    }
+
 
     codingData.problems =
         Math.max(
@@ -1602,11 +2017,25 @@ function updateCoding() {
         );
 
 
+    const today =
+        getTodayString();
+
+
     if (
         codingData.problems > 0
     ) {
 
-        codingData.streak++;
+        if (
+            codingData.lastUpdate !==
+            today
+        ) {
+
+            codingData.streak++;
+
+            codingData.lastUpdate =
+                today;
+
+        }
 
     }
 
@@ -1625,11 +2054,14 @@ function updateCoding() {
 }
 
 
-updateCodingBtn.addEventListener(
-    "click",
-    updateCoding
-);
+if (updateCodingBtn) {
 
+    updateCodingBtn.addEventListener(
+        "click",
+        updateCoding
+    );
+
+}
 
 
 /* =====================================================
@@ -1713,7 +2145,9 @@ function updateDashboard() {
     }
 
 
-    /* OVERALL PROGRESS */
+    /* =================================================
+       OVERALL PROGRESS
+       ================================================= */
 
     const studyTotal =
         studySessions.length;
@@ -1800,12 +2234,13 @@ function updateDashboard() {
 }
 
 
-
 /* =====================================================
    INITIALIZE
    ===================================================== */
 
-showPage("dashboard");
+showPage(
+    "dashboard"
+);
 
 renderTasks();
 
@@ -1817,5 +2252,10 @@ renderProjects();
 
 renderCoding();
 
+updateAssignmentStats();
+
+updateStudyProgress();
+
 updateDashboard();
-```
+
+updateCountdown();
