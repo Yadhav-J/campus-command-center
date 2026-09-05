@@ -12,7 +12,39 @@
 
 <body>
 
-    <!-- SIDEBAR -->
+    <section id="authScreen" class="auth-screen" aria-labelledby="authTitle">
+
+        <div class="auth-card">
+            <p class="auth-kicker">CAMPUS COMMAND CENTER</p>
+            <h1 id="authTitle">Welcome back</h1>
+            <p id="authSubtitle">Sign in to access your academic dashboard.</p>
+
+            <form id="authForm" class="auth-form">
+                <label id="authNameLabel" hidden>
+                    Name
+                    <input id="authNameInput" type="text" autocomplete="name">
+                </label>
+
+                <label>
+                    Email
+                    <input id="authEmailInput" type="email" autocomplete="email" required>
+                </label>
+
+                <label>
+                    Password
+                    <input id="authPasswordInput" type="password" minlength="8" autocomplete="current-password" required>
+                </label>
+
+                <p id="authError" class="auth-error" role="alert"></p>
+                <button id="authSubmit" class="primary-btn" type="submit">Sign in</button>
+            </form>
+
+            <button id="authToggle" class="auth-toggle" type="button">Create an account</button>
+        </div>
+
+    </section>
+
+    <!-- ================= SIDEBAR ================= -->
 
     <aside class="sidebar">
 
@@ -27,12 +59,16 @@
                 🏠 Dashboard
             </button>
 
+            <button class="nav-item" data-page="subjects">
+                📚 Subjects
+            </button>
+
             <button class="nav-item" data-page="tasks">
                 ✅ Tasks
             </button>
 
             <button class="nav-item" data-page="study">
-                📚 Study Planner
+                📖 Study Planner
             </button>
 
             <button class="nav-item" data-page="assignments">
@@ -51,16 +87,24 @@
                 💻 Coding
             </button>
 
+            <button class="nav-item" data-page="notes">
+                🗒️ Notes
+            </button>
+
+            <button class="nav-item" data-page="settings">
+                ⚙️ Settings
+            </button>
+
         </nav>
 
     </aside>
 
 
-    <!-- MAIN -->
+    <!-- ================= MAIN ================= -->
 
     <main class="main">
 
-        <!-- HEADER -->
+        <!-- TOP BAR -->
 
         <header class="topbar">
 
@@ -76,20 +120,28 @@
 
             </div>
 
-            <div class="profile">
-                👤 YADHU
+            <div class="topbar-actions">
+                <div id="profileName" class="profile">
+                    👤 YADHU
+                </div>
+
+                <button id="logoutBtn" class="logout-btn" type="button">
+                    Sign out
+                </button>
             </div>
 
         </header>
 
 
-        <!-- DASHBOARD -->
+        <!-- =====================================================
+             DASHBOARD
+             ===================================================== -->
 
         <section id="dashboard" class="page active-page">
 
             <div class="welcome">
 
-                <h2>
+                <h2 id="welcomeTitle">
                     Good afternoon, Yadhu 👋
                 </h2>
 
@@ -100,13 +152,11 @@
             </div>
 
 
-            <!-- STAT CARDS -->
-
             <div class="stats-grid">
 
                 <div class="stat-card">
 
-                    <span>📋 Tasks</span>
+                    <span>📋 Pending Tasks</span>
 
                     <h2 id="dashboardTasks">
                         0
@@ -178,37 +228,28 @@
             </div>
 
 
-            <!-- SCHEDULE -->
+            <!-- TODAY'S SCHEDULE -->
 
             <div class="card">
 
-                <h2>
-                    Today's Schedule
-                </h2>
-
-                <div class="schedule">
-
-                    <div>
-                        <span>8:15 AM</span>
-                        <strong>Web Development</strong>
-                    </div>
-
-                    <div>
-                        <span>10:00 AM</span>
-                        <strong>Data Structures</strong>
-                    </div>
-
-                    <div>
-                        <span>1:15 PM</span>
-                        <strong>Project Work</strong>
-                    </div>
-
+                <div class="schedule-heading">
+                    <h2>Today's Schedule</h2>
+                    <span class="schedule-hint">Plan your day</span>
                 </div>
+
+                <div class="schedule-form">
+                    <input type="time" id="scheduleTimeInput" aria-label="Class time">
+                    <input type="text" id="scheduleTitleInput" placeholder="Add a class or activity" aria-label="Class or activity">
+                    <button id="addScheduleBtn" class="primary-btn">Add</button>
+                </div>
+
+                <div id="scheduleList" class="schedule"></div>
+                <p id="scheduleEmpty" class="schedule-empty" hidden>No plans yet. Add your first activity above.</p>
 
             </div>
 
 
-            <!-- EXAM -->
+            <!-- NEXT EXAM -->
 
             <div class="card">
 
@@ -223,7 +264,9 @@
                 <div
                     id="dashboardExamCountdown"
                     class="countdown">
+
                     Loading...
+
                 </div>
 
             </div>
@@ -231,7 +274,57 @@
         </section>
 
 
-        <!-- TASKS -->
+
+        <!-- =====================================================
+             SUBJECTS
+             ===================================================== -->
+
+        <section id="subjects" class="page">
+
+            <div class="card">
+
+                <h2>
+                    Subjects
+                </h2>
+
+                <div class="input-row">
+
+                    <input
+                        type="text"
+                        id="subjectNameInput"
+                        placeholder="Enter subject name">
+
+                    <input
+                        type="text"
+                        id="subjectCodeInput"
+                        placeholder="Subject code">
+
+                    <button
+                        id="addSubjectBtn"
+                        class="primary-btn">
+
+                        Add Subject
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <div
+                id="subjectList"
+                class="card-grid">
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =====================================================
+             TASKS
+             ===================================================== -->
 
         <section id="tasks" class="page">
 
@@ -251,14 +344,18 @@
                     <button
                         id="addTaskBtn"
                         class="primary-btn">
+
                         Add Task
+
                     </button>
 
                 </div>
 
+
                 <ul
                     id="taskList"
                     class="item-list">
+
                 </ul>
 
             </div>
@@ -266,7 +363,10 @@
         </section>
 
 
-        <!-- STUDY PLANNER -->
+
+        <!-- =====================================================
+             STUDY PLANNER
+             ===================================================== -->
 
         <section id="study" class="page">
 
@@ -302,7 +402,9 @@
                     <button
                         id="addStudyBtn"
                         class="primary-btn">
+
                         Add Session
+
                     </button>
 
                 </div>
@@ -311,6 +413,7 @@
                 <ul
                     id="studyList"
                     class="item-list">
+
                 </ul>
 
 
@@ -328,6 +431,7 @@
 
                     </div>
 
+
                     <div class="progress-bar">
 
                         <div
@@ -344,7 +448,10 @@
         </section>
 
 
-        <!-- ASSIGNMENTS -->
+
+        <!-- =====================================================
+             ASSIGNMENTS
+             ===================================================== -->
 
         <section id="assignments" class="page">
 
@@ -353,6 +460,7 @@
                 <h2>
                     Assignment Tracker
                 </h2>
+
 
                 <div class="input-grid">
 
@@ -386,10 +494,13 @@
 
                     </select>
 
+
                     <button
                         id="addAssignmentBtn"
                         class="primary-btn">
+
                         Add Assignment
+
                     </button>
 
                 </div>
@@ -397,28 +508,49 @@
             </div>
 
 
-            <!-- STATISTICS -->
-
             <div class="stats-grid">
 
                 <div class="stat-card">
+
                     <span>Total</span>
-                    <h2 id="totalAssignments">0</h2>
+
+                    <h2 id="totalAssignments">
+                        0
+                    </h2>
+
                 </div>
 
+
                 <div class="stat-card">
+
                     <span>Pending</span>
-                    <h2 id="pendingAssignments">0</h2>
+
+                    <h2 id="pendingAssignments">
+                        0
+                    </h2>
+
                 </div>
 
+
                 <div class="stat-card">
+
                     <span>In Progress</span>
-                    <h2 id="progressAssignments">0</h2>
+
+                    <h2 id="progressAssignments">
+                        0
+                    </h2>
+
                 </div>
 
+
                 <div class="stat-card">
+
                     <span>Completed</span>
-                    <h2 id="completedAssignments">0</h2>
+
+                    <h2 id="completedAssignments">
+                        0
+                    </h2>
+
                 </div>
 
             </div>
@@ -499,19 +631,41 @@
             </div>
 
 
-            <!-- ASSIGNMENT LIST -->
-
             <div
                 id="assignmentList"
                 class="card-grid">
+
             </div>
 
         </section>
 
 
-        <!-- EXAMS -->
+
+        <!-- =====================================================
+             EXAMS
+             ===================================================== -->
 
         <section id="exams" class="page">
+
+            <div class="card">
+
+                <h2>Exam Countdown</h2>
+
+                <div class="input-grid">
+
+                    <input type="text" id="examName" placeholder="Exam name">
+                    <input type="text" id="examSubject" placeholder="Subject">
+                    <input type="datetime-local" id="examDateInput">
+
+                    <button id="addExamBtn" class="primary-btn">
+                        Add Exam
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div id="examList" class="card-grid"></div>
 
             <div class="card exam-card">
 
@@ -519,26 +673,29 @@
                     UPCOMING EXAM
                 </span>
 
-                <h2>
+                <h2 id="examNameDisplay">
                     Digital Image Processing
                 </h2>
 
                 <div
                     id="examCountdown"
                     class="big-countdown">
+
                     Loading...
+
                 </div>
 
-                <p>
-                    September 8, 2026 • 9:00 AM
-                </p>
+                <p id="examDateDisplay"></p>
 
             </div>
 
         </section>
 
 
-        <!-- PROJECTS -->
+
+        <!-- =====================================================
+             PROJECTS
+             ===================================================== -->
 
         <section id="projects" class="page">
 
@@ -547,6 +704,7 @@
                 <h2>
                     Project Manager
                 </h2>
+
 
                 <div class="input-grid">
 
@@ -563,7 +721,7 @@
                     <input
                         type="url"
                         id="projectGithub"
-                        placeholder="GitHub URL">
+                        placeholder="GitHub Repository URL">
 
                     <input
                         type="number"
@@ -592,10 +750,13 @@
 
                     </select>
 
+
                     <button
                         id="addProjectBtn"
                         class="primary-btn">
+
                         Add Project
+
                     </button>
 
                 </div>
@@ -606,12 +767,16 @@
             <div
                 id="projectList"
                 class="card-grid">
+
             </div>
 
         </section>
 
 
-        <!-- CODING -->
+
+        <!-- =====================================================
+             CODING
+             ===================================================== -->
 
         <section id="coding" class="page">
 
@@ -646,7 +811,7 @@
                 <div class="stat-card">
 
                     <span>
-                        Projects
+                        Projects Completed
                     </span>
 
                     <h2 id="codingProjects">
@@ -670,6 +835,11 @@
 
             </div>
 
+            <div class="card">
+                <h2>Programming Languages</h2>
+                <p id="codingLanguages">No languages added yet.</p>
+            </div>
+
 
             <div class="card">
 
@@ -677,30 +847,35 @@
                     Update Coding Statistics
                 </h2>
 
+
                 <div class="input-grid">
 
                     <input
                         type="number"
                         id="problemsInput"
-                        placeholder="Problems solved"
-                        min="0">
+                        placeholder="Problems solved">
 
                     <input
                         type="number"
                         id="hoursInput"
-                        placeholder="Coding hours"
-                        min="0">
+                        placeholder="Coding hours">
 
                     <input
                         type="number"
                         id="codingProjectsInput"
-                        placeholder="Projects completed"
-                        min="0">
+                        placeholder="Projects completed">
+
+                    <input
+                        type="text"
+                        id="languagesInput"
+                        placeholder="Languages (C, Python, JavaScript)">
 
                     <button
                         id="updateCodingBtn"
                         class="primary-btn">
+
                         Update
+
                     </button>
 
                 </div>
@@ -709,7 +884,68 @@
 
         </section>
 
+        <section id="notes" class="page">
+
+            <div class="card">
+
+                <h2>Notes</h2>
+
+                <div class="input-grid">
+
+                    <input type="text" id="noteTitle" placeholder="Note title">
+                    <input type="text" id="noteSubject" placeholder="Subject">
+                    <textarea id="noteContent" placeholder="Write your note..."></textarea>
+
+                    <button id="addNoteBtn" class="primary-btn">
+                        Add Note
+                    </button>
+
+                </div>
+
+            </div>
+
+            <div id="noteList" class="card-grid"></div>
+
+        </section>
+
+        <section id="settings" class="page">
+
+            <div class="card">
+
+                <h2>Settings</h2>
+
+                <div class="input-row">
+
+                    <input type="text" id="displayNameInput" placeholder="Display name">
+
+                    <button id="saveSettingsBtn" class="primary-btn">
+                        Save Settings
+                    </button>
+
+                </div>
+
+                <div class="input-row">
+
+                    <label for="themeInput">Theme</label>
+
+                    <select id="themeInput">
+                        <option value="dark">Dark</option>
+                        <option value="light">Light</option>
+                    </select>
+
+                </div>
+
+                <button id="clearDataBtn" class="danger-btn">
+                    Clear Local Data
+                </button>
+
+            </div>
+
+        </section>
+
     </main>
+
+    <div id="toast" class="toast" role="status" aria-live="polite"></div>
 
 
     <script src="script.js"></script>
