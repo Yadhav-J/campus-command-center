@@ -4,6 +4,9 @@
   "private": true,
   "description": "Campus Command Center web app and backend",
   "main": "backend/server.js",
+  "engines": {
+    "node": ">=24 <25"
+  },
   "scripts": {
     "start": "node backend/server.js",
     "dev": "node --watch backend/server.js"

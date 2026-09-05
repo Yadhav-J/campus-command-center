@@ -7,7 +7,7 @@ const { DatabaseSync } = require("node:sqlite");
 
 const port = Number(process.env.PORT) || 5501;
 const projectPath = path.join(__dirname, "..");
-const databasePath = path.join(projectPath, "campus-command-center.sqlite");
+const databasePath = process.env.DATABASE_PATH || path.join(projectPath, "campus-command-center.sqlite");
 const frontendPath = path.join(projectPath, "frontend");
 const database = new DatabaseSync(databasePath);
 

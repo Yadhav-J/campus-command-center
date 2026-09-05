@@ -280,6 +280,28 @@ nav {
 
 }
 
+.menu-toggle {
+    display: none;
+    width: 42px;
+    height: 42px;
+    padding: 10px;
+    border: 1px solid #30363d;
+    border-radius: 8px;
+    background: #161b22;
+}
+
+.menu-toggle span {
+    display: block;
+    height: 2px;
+    margin: 4px 0;
+    background: #e6edf3;
+    border-radius: 2px;
+}
+
+.nav-backdrop {
+    display: none;
+}
+
 
 .topbar h1 {
 
@@ -1194,11 +1216,55 @@ body.light-theme .assignment-card p {
 
     .sidebar {
 
-        position: relative;
+        position: fixed;
 
-        width: 100%;
+        z-index: 5;
 
-        height: auto;
+        width: min(280px, 82vw);
+
+        height: 100vh;
+
+        transform: translateX(-100%);
+
+        transition: transform 0.2s ease;
+
+        box-shadow: 18px 0 40px rgba(0, 0, 0, 0.28);
+
+    }
+
+    .sidebar.is-open {
+
+        transform: translateX(0);
+
+    }
+
+    .nav-backdrop {
+
+        display: block;
+
+        position: fixed;
+
+        inset: 0;
+
+        z-index: 4;
+
+        border: 0;
+
+        background: rgba(1, 4, 9, 0.62);
+
+        opacity: 0;
+
+        pointer-events: none;
+
+        transition: opacity 0.2s ease;
+
+    }
+
+    .sidebar.is-open + .nav-backdrop {
+
+        opacity: 1;
+
+        pointer-events: auto;
 
     }
 
@@ -1219,6 +1285,14 @@ body.light-theme .assignment-card p {
         align-items: flex-start;
 
         gap: 15px;
+
+    }
+
+    .menu-toggle {
+
+        display: block;
+
+        order: -1;
 
     }
 

@@ -391,6 +391,23 @@ This project is suitable for local development and learning. Before deploying it
 - A production deployment process and database backup strategy.
 - Environment-based configuration for the port and security settings.
 
+## Deploy to Render
+
+The repository includes `render.yaml` for a Render web service. It uses the
+`DATABASE_PATH` environment variable to place SQLite data on a persistent disk
+at `/var/data/campus-command-center.sqlite`.
+
+1. Push the current branch to GitHub.
+2. In Render, choose **New > Blueprint** and select the repository.
+3. Review the generated `campus-command-center` web service and deploy it.
+4. Keep the configured 1 GB persistent disk. Do not use a free, diskless
+   service for this SQLite-backed application: its filesystem is ephemeral and
+   user accounts and dashboard data would be lost on restart or redeploy.
+5. Open the resulting `onrender.com` URL and create a new account.
+
+The Render disk is required for data persistence and is available only with a
+paid web-service plan. The deployment health check uses `/api/health`.
+
 ## Git Workflow
 
 The project uses focused Conventional Commit names. Examples from the current history:

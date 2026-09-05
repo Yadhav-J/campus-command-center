@@ -20,6 +20,16 @@ const pageTitle =
 const pageSubtitle =
     document.getElementById("pageSubtitle");
 
+const menuToggle = document.getElementById("menuToggle");
+const sidebar = document.getElementById("sidebar");
+const navBackdrop = document.getElementById("navBackdrop");
+
+function closeMobileMenu() {
+    sidebar.classList.remove("is-open");
+    menuToggle.setAttribute("aria-expanded", "false");
+    menuToggle.setAttribute("aria-label", "Open navigation");
+}
+
 
 const pageInfo = {
 
@@ -135,7 +145,26 @@ function showPage(pageName) {
 
     }
 
+    if (window.innerWidth <= 650) {
+        closeMobileMenu();
+    }
+
 }
+
+menuToggle.addEventListener("click", function() {
+    const isOpen = sidebar.classList.toggle("is-open");
+    menuToggle.setAttribute("aria-expanded", String(isOpen));
+    menuToggle.setAttribute("aria-label", isOpen ? "Close navigation" : "Open navigation");
+});
+
+navBackdrop.addEventListener("click", closeMobileMenu);
+
+document.addEventListener("keydown", function(event) {
+    if (event.key === "Escape" && sidebar.classList.contains("is-open")) {
+        closeMobileMenu();
+        menuToggle.focus();
+    }
+});
 
 
 navItems.forEach(function(item) {
