@@ -1,0 +1,12 @@
+{
+  "name": "campus-command-center",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Campus Command Center web app and backend",
+  "main": "backend/server.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "node --watch backend/server.js"
+  },
+  "dependencies": {}
+}
